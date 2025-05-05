@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import HeroCarousel from "../Components/HeroCarousel";
 
 const featureCards = [
@@ -40,6 +41,10 @@ const featureCards = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Home – URBank";
+  }, []);
+
   const [startIndex, setStartIndex] = useState(0);
 
   const next = () => {
@@ -167,7 +172,7 @@ export default function Home() {
           <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{
-              transform: `translateX(-${startIndex * 368}px)`, 
+              transform: `translateX(-${startIndex * 368}px)`,
             }}
           >
             {featureCards.map((card, i) => (
@@ -176,7 +181,7 @@ export default function Home() {
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-80 object-cover"
                   />
                   <div className="p-5">
                     <h3 className="font-bold text-lg text-gray-900 mb-2">

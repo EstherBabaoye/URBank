@@ -1,7 +1,16 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
-  const navItems = ['Home', 'Personal', 'Business', 'Corporate', 'About Us'];
+  const location = useLocation();
+
+  const navItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Personal', path: '/personal' },
+    { label: 'Business', path: '/business' },
+    { label: 'Corporate', path: '/corporate' },
+    { label: 'About Us', path: '/about' },
+  ];
 
   return (
     <header className="fixed top-0 w-full z-50 bg-[#72cded] shadow-lg h-8 flex items-center justify-center px-4 lg:px-10">
@@ -9,15 +18,15 @@ export default function Header() {
         <ul className="flex space-x-10 font-semibold text-base lg:text-sm uppercase">
           {navItems.map((item, index) => (
             <li key={index}>
-              <a
-                href="#"
+              <Link
+                to={item.path}
                 className={`relative group transition-all duration-200 ${
-                  item === 'text-[#051d40]'
+                  location.pathname === item.path ? 'text-[#051d40]' : ''
                 }`}
               >
-                {item}
+                {item.label}
                 <span className="absolute left-0 -bottom-1 w-full h-1 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-in-out rounded bg-gray-300 group-hover:bg-[#fbbf24]"></span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
