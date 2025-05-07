@@ -9,8 +9,8 @@ import ScrollToTop from "./Components/ScrollToTop";
 import Home from "./Pages/Home";
 import Personal from "./Pages/Personal";
 import Business from "./Pages/Business";
-import Corporate from "./Pages/Corporate";
 import AboutUs from "./Pages/AboutUs";
+import LoanandCredit from "./Pages/LoanandCredit";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/personal" element={<Personal />} />
           <Route path="/business" element={<Business />} />
-          <Route path="/corporate" element={<Corporate />} />
+          <Route path="/loan-and-credit" element={<LoanandCredit />} />
           <Route path="/about" element={<AboutUs />} />
         </Routes>
       </main>
