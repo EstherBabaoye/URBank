@@ -12,25 +12,25 @@ import Business from "./Pages/Business";
 import AboutUs from "./Pages/AboutUs";
 import { SearchResults } from "./Pages/SearchResults";
 
-import SavingsAccount from "./pages/accounts/SavingsAccount";
-import CurrentAccount from "./pages/accounts/CurrentAccount";
-import BusinessAccount from "./pages/accounts/BusinessAccount";
-import StudentAccount from "./pages/accounts/StudentAccount";
+import SavingsAccount from "./Pages/accounts/SavingsAccount";
+import CurrentAccount from "./Pages/accounts/CurrentAccount";
+import BusinessAccount from "./Pages/accounts/BusinessAccount";
+import StudentAccount from "./Pages/accounts/StudentAccount";
 
-import DebitCards from "./pages/cardsLoans/DebitCards";
-import CreditCards from "./pages/cardsLoans/CreditCards";
-import PersonalLoans from "./pages/cardsLoans/PersonalLoans";
-import BusinessLoans from "./pages/cardsLoans/BusinessLoans";
+import DebitCards from "./Pages/cardsLoans/DebitCards";
+import CreditCards from "./aPges/cardsLoans/CreditCards";
+import PersonalLoans from "./Pages/cardsLoans/PersonalLoans";
+import BusinessLoans from "./Pages/cardsLoans/BusinessLoans";
 
-import MobileBanking from "./pages/services/MobileBanking";
-import InternetBanking from "./pages/services/InternetBanking";
-import CardlessWithdrawal from "./pages/services/CardlessWithdrawal";
-import QRPayments from "./pages/services/QRPayments";
+import MobileBanking from "./Pages/services/MobileBanking";
+import InternetBanking from "./Pages/services/InternetBanking";
+import CardlessWithdrawal from "./Pages/services/CardlessWithdrawal";
+import QRPayments from "./Pages/services/QRPayments";
 
-import HelpCenter from "./pages/support/HelpCenter";
-import ContactUs from "./pages/support/ContactUs";
-import FAQs from "./pages/support/FAQs";
-import LiveChat from "./pages/support/LiveChat";
+import HelpCenter from "./Pages/support/HelpCenter";
+import ContactUs from "./Pages/support/ContactUs";
+import FAQs from "./Pages/support/FAQs";
+import LiveChat from "./Pages/support/LiveChat";
 import Support from "./Pages/Support";
 
 function App() {
