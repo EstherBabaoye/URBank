@@ -18,7 +18,7 @@ import BusinessAccount from "./Pages/accounts/BusinessAccount";
 import StudentAccount from "./Pages/accounts/StudentAccount";
 
 import DebitCards from "./Pages/cardsLoans/DebitCards";
-import CreditCards from "./aPges/cardsLoans/CreditCards";
+import CreditCards from "./Pages/cardsLoans/CreditCards";
 import PersonalLoans from "./Pages/cardsLoans/PersonalLoans";
 import BusinessLoans from "./Pages/cardsLoans/BusinessLoans";
 
