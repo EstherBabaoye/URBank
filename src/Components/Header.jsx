@@ -8,7 +8,7 @@ export default function Header() {
     { label: 'Home', path: '/' },
     { label: 'Personal', path: '/personal' },
     { label: 'Business', path: '/business' },
-    { label: 'Loan & Credit', path: '/loan-and-credit' },
+    { label: 'Support', path: '/support' },
     { label: 'About Us', path: '/about' },
   ];
 

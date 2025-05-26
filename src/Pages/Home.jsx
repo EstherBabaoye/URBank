@@ -42,7 +42,7 @@ const featureCards = [
 
 export default function Home() {
   useEffect(() => {
-    document.title = "Home – URBank";
+    document.title = "Home | Your Bank, Your Money, Your Future";
   }, []);
 
   const [startIndex, setStartIndex] = useState(0);

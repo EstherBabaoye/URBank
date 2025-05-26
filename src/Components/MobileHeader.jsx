@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Transition } from "@headlessui/react";
 import URBankLogo from "../assets/URB LOGO2.png";
 
 export default function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchRef = useRef(null);
 
   const navItems = [
     { label: "HOME", icon: "🏠" },
@@ -17,68 +20,125 @@ export default function MobileHeader() {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearch(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLinkClick = () => {
     setMenuOpen(false);
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (query.trim() !== "") {
+      window.location.href = `/search?q=${encodeURIComponent(query.trim())}`;
+      setShowSearch(false);
+      setQuery("");
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full z-50">
-      {/* Top Navbar with Logo and Close Button */}
+      {/* Top Navbar */}
       <div
-  className="shadow-lg h-24 flex items-center justify-between px-4 z-50 relative bg-gradient-to-r"
-  style={{ backgroundImage: 'linear-gradient(to right, #aef0f8, #6dbaf0, #4d8fd1)' }}
->
-
+        className="shadow-lg h-24 flex items-center justify-between px-4 z-50 relative bg-gradient-to-r"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #aef0f8, #6dbaf0, #4d8fd1)",
+        }}
+      >
         {/* Logo */}
-        <a href="#" className="flex items-center">
+        <a href="/" className="flex items-center">
           <img src={URBankLogo} alt="URBank Logo" className="h-12 w-auto" />
         </a>
 
-        {/* Close Button */}
-        {menuOpen && (
+        <div className="flex items-center gap-4">
+          {/* Search Icon */}
           <button
-            onClick={() => setMenuOpen(false)}
-            className="text-[#051d40] focus:outline-none"
-            aria-label="Close Menu"
+            onClick={() => {
+              setShowSearch(true); // show search bar
+              setMenuOpen(false); // close hamburger menu
+            }}
+            className="text-[#051d40]"
+            aria-label="Toggle Search"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <i className="fas fa-search text-lg" />
           </button>
-        )}
 
-        {/* Hamburger Toggle */}
-        {!menuOpen && (
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="text-[#051d40] focus:outline-none"
-            aria-label="Open Menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          {/* Hamburger Menu Toggle */}
+          {!menuOpen && (
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="text-[#051d40]"
+              aria-label="Open Menu"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        )}
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          )}
+
+          {/* Close Button */}
+          {menuOpen && (
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="text-[#051d40]"
+              aria-label="Close Menu"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Search Bar */}
+      <div
+        ref={searchRef}
+        className={`bg-white px-4 transition-all duration-300 ${
+          showSearch ? "h-16 py-2" : "h-0 overflow-hidden"
+        }`}
+      >
+        <form
+          onSubmit={handleSearchSubmit}
+          className="flex items-center h-full"
+        >
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search..."
+            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#72cded]"
+            autoFocus
+          />
+        </form>
       </div>
 
       {/* Slide-in Menu */}
