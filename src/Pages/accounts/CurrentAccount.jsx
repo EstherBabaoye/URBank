@@ -1,9 +1,14 @@
 import { useEffect } from "react";
+import OpenAccount from "./OpenAccount";
 
 export default function CurrentAccount() {
   useEffect(() => {
       document.title = "Current Account";
     }, []);
-    return <div className="mt-32 sm-mt-16 mb-24">This is the Current ACCOUNT page.</div>;
+   return (
+           <div className="mt-40 pt-16 sm:mt-16 mb-24 ">
+             <OpenAccount />
+           </div>
+         );
   }
   

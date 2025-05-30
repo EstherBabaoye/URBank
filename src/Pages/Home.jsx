@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import HeroCarousel from "../Components/HeroCarousel";
+import { Link } from "react-router-dom";
 
 const featureCards = [
   {
     image: "/savings-account.png",
     title: "Savings Account",
     text: "Secure your future with high-interest savings plans tailored to your goals.",
+    link: "/accounts/savings",
   },
   {
     image: "/current-account.png",
     title: "Current Account",
     text: "Enjoy seamless day-to-day transactions with unlimited access to your funds.",
+    link: "/accounts/current",
   },
   {
     image: "/open-online.png",
     title: "Open an Account Online",
     text: "Join URBank in minutes—anytime, anywhere. All you need is your phone.",
+    link: "/accounts/open-acc",
   },
   {
     image: "/debit-card.png",
@@ -27,6 +31,7 @@ const featureCards = [
     image: "/personal-loan.png",
     title: "Personal Loans",
     text: "Get the funds you need with flexible repayments and quick approval.",
+    link: "/cards-loans/personal-loans",
   },
   {
     image: "/business-banking.png",
@@ -184,9 +189,19 @@ export default function Home() {
                     className="w-full h-80 object-cover"
                   />
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2">
-                      {card.title}
-                    </h3>
+                    {card.link ? (
+                      <Link
+                        to={card.link}
+                        className="font-bold text-lg text-gray-900 mb-2 hover:text-[#72cded] transition"
+                      >
+                        {card.title}
+                      </Link>
+                    ) : (
+                      <h3 className="font-bold text-lg text-gray-900 mb-2">
+                        {card.title}
+                      </h3>
+                    )}
+
                     <p className="text-gray-600 text-sm">{card.text}</p>
                   </div>
                 </div>

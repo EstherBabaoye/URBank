@@ -3,7 +3,7 @@ import URBankLogo from "../assets/URB LOGO2.png";
 
 export const Footer = () => {
   return (
-    <div className="relative mt-16 bg-[#051d40]">
+    <div className="relative  bg-[#051d40] print:hidden">
       <svg
         className="absolute top-12 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-white"
         preserveAspectRatio="none"

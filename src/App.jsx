@@ -32,6 +32,7 @@ import ContactUs from "./Pages/support/ContactUs";
 import FAQs from "./Pages/support/FAQs";
 import LiveChat from "./Pages/support/LiveChat";
 import Support from "./Pages/Support";
+import OpenAccount from "./Pages/accounts/OpenAccount";
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
           <Route path="/support/contact-us" element={<ContactUs />} />
           <Route path="/support/faqs" element={<FAQs />} />
           <Route path="/support/live-chat" element={<LiveChat />} />
+          <Route path="/accounts/open-acc" element={<OpenAccount />} />
         </Routes>
       </main>
 

@@ -65,7 +65,7 @@ export default function MobileHeader() {
               setShowSearch(true); // show search bar
               setMenuOpen(false); // close hamburger menu
             }}
-            className="text-[#051d40]"
+            className="text-[#051d40] print:hidden"
             aria-label="Toggle Search"
           >
             <i className="fas fa-search text-lg" />
@@ -75,7 +75,7 @@ export default function MobileHeader() {
           {!menuOpen && (
             <button
               onClick={() => setMenuOpen(true)}
-              className="text-[#051d40]"
+              className="text-[#051d40] print:hidden"
               aria-label="Open Menu"
             >
               <svg

@@ -13,7 +13,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-[#72cded] shadow-lg h-8 flex items-center justify-center px-4 lg:px-10">
+    <header className="fixed top-0 print:hidden w-full z-50 bg-[#72cded] shadow-lg h-8 flex items-center justify-center px-4 lg:px-10">
       <nav>
         <ul className="flex space-x-10 font-semibold text-base lg:text-sm uppercase">
           {navItems.map((item, index) => (

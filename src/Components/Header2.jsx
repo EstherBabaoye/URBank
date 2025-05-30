@@ -41,7 +41,7 @@ export default function Header2() {
       </p>
 
       {/* Search + CTA */}
-      <div className="flex items-center space-x-4 relative" ref={searchRef}>
+      <div className="flex items-center space-x-4 relative print:hidden" ref={searchRef}>
         {/* Search Icon */}
         <button
           onClick={() => setShowSearch((prev) => !prev)}
@@ -66,7 +66,7 @@ export default function Header2() {
         {/* Contact Button */}
         <button
           onClick={() => navigate("/support/contact-us")}
-          className="bg-[#72cded] hover:text-[#fbbf24] text-sm text-[#051d40] font-semibold px-4 py-2 rounded"
+          className="bg-[#72cded] print:hidden hover:text-[#fbbf24] text-sm text-[#051d40] font-semibold px-4 py-2 rounded"
         >
           CONTACT US
         </button>
