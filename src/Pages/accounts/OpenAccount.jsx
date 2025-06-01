@@ -7,7 +7,7 @@ export default function OpenAccount() {
   }, []);
 
   return (
-    <div className=" mb-24 ">
+    <div className=" pt-16 mt-24 mb-24 ">
       <AccountOpeningForm />
     </div>
   );

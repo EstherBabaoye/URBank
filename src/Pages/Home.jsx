@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HeroCarousel from "../Components/HeroCarousel";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const featureCards = [
   {
@@ -45,6 +45,20 @@ const featureCards = [
   },
 ];
 
+const containerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
 export default function Home() {
   useEffect(() => {
     document.title = "Home | Your Bank, Your Money, Your Future";
@@ -65,12 +79,18 @@ export default function Home() {
   };
 
   return (
-    <main className="mt-20 sm-mt-16 mb-24">
+    <main className="mt-20 sm:mt-16 mb-24">
       <HeroCarousel />
 
+      {/* Upper Grid Section */}
       <div className="max-w-6xl mx-auto mt-12 px-4 flex flex-col lg:flex-row gap-8">
         {/* Left Cards */}
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 flex-1">
+        <motion.div
+          className="grid gap-8 grid-cols-1 sm:grid-cols-2 flex-1"
+          variants={containerVariants}
+          initial="initial"
+          animate="animate"
+        >
           {[
             {
               title: "Private Banking",
@@ -81,8 +101,9 @@ export default function Home() {
               desc: "Download our mobile app and experience simpler, more reliable and convenient banking.",
             },
           ].map((card, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={cardVariants}
               className="bg-white shadow-md border border-gray-200 rounded-xl p-6 flex flex-col justify-between"
             >
               <div>
@@ -94,12 +115,12 @@ export default function Home() {
               <button className="mt-6 bg-[#72cded] hover:text-[#fbbf24] text-[#051d40] text-sm sm:text-base md:text-lg font-semibold  py-3 rounded-md transition">
                 LEARN MORE
               </button>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Right Yellow Stack */}
-        <div className="flex flex-col gap-4 w-full lg:w-[300px]">
+        <div className="flex flex-col gap-4 w-full sm:w-72 lg:w-[300px]">
           {[
             { icon: "💳", title: "CARDS" },
             { icon: "📍", title: "BRANCH LOCATOR" },
@@ -130,18 +151,18 @@ export default function Home() {
         />
       </div>
 
+      {/* Feature Card Slider */}
       <section className="max-w-6xl mx-auto mt-20 px-4">
         {/* Header + Progress */}
         <div className="flex flex-col lg:flex-row justify-between items-center mb-8 px-2 lg:px-4">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#051d40] leading-tight mb-4 lg:mb-0">
+          <h2 className="text-3xl lg:text-4xl font-bold text-[#051d40] leading-tight mb-4 lg:mb-0 text-center lg:text-left">
             Explore our world of
             <br className="hidden md:block" />
             absolute financial freedom
           </h2>
 
-          {/* Progress bar + arrows */}
-          <div className="flex items-center gap-4 w-full lg:w-1/2">
-            {/* Progress bar background */}
+          {/* Progress and Arrows */}
+          <div className="flex items-center gap-4 w-full lg:w-1/2 max-w-lg">
             <div className="relative flex-1 h-[2px] bg-gray-300 rounded">
               <div
                 className="absolute left-0 top-0 h-[2px] bg-[#72cded] rounded"
@@ -151,17 +172,13 @@ export default function Home() {
                 }}
               />
             </div>
-
             <div className="flex items-center gap-3">
-              {/* Left Arrow - Circle with border */}
               <button
                 onClick={prev}
                 className="w-12 h-12 rounded-full bg-[#72cded] border-2 border-[#051d40] flex items-center justify-center"
               >
                 <span className="text-[#051d40] text-xl font-bold">◄</span>
               </button>
-
-              {/* Right Arrow - Solid yellow circle */}
               <button
                 onClick={next}
                 className="w-12 h-12 rounded-full bg-[#72cded] border-2 border-[#051d40] flex items-center justify-center"
@@ -172,27 +189,34 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Card Slider */}
-        <div className="relative overflow-hidden">
+        {/* Card Scroll Section */}
+        <motion.div
+          className="relative overflow-hidden"
+          variants={containerVariants}
+          initial="initial"
+          animate="animate"
+        >
           <div
             className="flex transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(-${startIndex * 368}px)`,
-            }}
+            style={{ transform: `translateX(-${startIndex * 320}px)` }}
           >
             {featureCards.map((card, i) => (
-              <div key={i} className="w-[320px] mx-6 shrink-0">
+              <motion.div
+                key={i}
+                variants={cardVariants}
+                className="w-[280px] sm:w-[320px] mx-4 sm:mx-6 shrink-0"
+              >
                 <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-80 object-cover"
+                    className="w-full h-64 sm:h-80 object-cover"
                   />
                   <div className="p-5">
                     {card.link ? (
                       <Link
                         to={card.link}
-                        className="font-bold text-lg text-gray-900 mb-2 hover:text-[#72cded] transition"
+                        className="font-bold text-lg text-gray-900 mb-2 hover:text-[#72cded] transition block"
                       >
                         {card.title}
                       </Link>
@@ -201,17 +225,14 @@ export default function Home() {
                         {card.title}
                       </h3>
                     )}
-
                     <p className="text-gray-600 text-sm">{card.text}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
     </main>
   );
 }
-
-/////URBank is a user-first digital banking interface designed to help individuals and businesses explore financial freedom with ease. From personalized account options to secure mobile banking, every feature is built for convenience, clarity, and confidence. Whether you're managing your money or opening your first account, URBank makes the experience intuitive and empowering.

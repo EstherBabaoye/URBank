@@ -84,59 +84,79 @@ export default function FAQs() {
   );
 
   return (
-    <div className="mt-40 sm:mt-24 mb-24 px-4 sm:px-6 lg:px-8">
-      <section className="bg-white dark:bg-gray-900">
-        <div className="container mx-auto py-12">
-          <h1 className="text-2xl font-semibold text-center text-gray-800 lg:text-3xl dark:text-white">
+    <div className="mt-40 pt-12 sm:mt-24 mb-24 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-xl p-6 sm:p-12">
+        <div className="container mx-auto max-w-6xl">
+          <motion.h1 
+            className="text-3xl sm:text-4xl font-bold text-center text-[#051d40] dark:text-white"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             Have any Questions?
-          </h1>
-          <p className="mt-2 text-center text-blue-600 dark:text-blue-400 font-medium">
+          </motion.h1>
+          <motion.p 
+            className="mt-2 text-center text-blue-600 dark:text-blue-400 font-medium text-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             YOUR BANK, YOUR MONEY, YOUR FUTURE
-          </p>
+          </motion.p>
 
-          <div className="mt-8 xl:mt-16 lg:flex lg:-mx-12">
-            <aside className="lg:mx-12 mb-8 lg:mb-0">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-                Table of Content
+          <div className="mt-12 lg:flex lg:gap-10">
+            <aside className="w-full lg:w-1/4 mb-10 lg:mb-0">
+              <h2 className="text-xl font-semibold text-[#051d40] dark:text-white">
+                Categories
               </h2>
-              <nav className="mt-4 space-y-4 lg:mt-8" aria-label="FAQ Categories">
+              <nav className="mt-6 space-y-4">
                 {sectionKeys.map((section) => (
-                  <button
+                  <motion.button
                     key={section}
                     onClick={() => {
                       setActiveSection(section);
                       setOpenQuestion(null);
                       setSearchQuery("");
                     }}
-                    className={`block w-full text-left hover:underline transition-colors ${
-                      activeSection === section
-                        ? "text-blue-500 dark:text-blue-400 font-semibold"
-                        : "text-gray-600 dark:text-gray-300"
-                    }`}
-                    aria-current={activeSection === section ? "true" : "false"}
+                    className={`block w-full text-left py-2 px-4 rounded-lg transition-all duration-200 ${activeSection === section
+                      ? "bg-blue-100 text-blue-700 dark:bg-blue-500 dark:text-white font-semibold"
+                      : "hover:bg-blue-50 text-gray-700 dark:text-gray-300"}`}
+                    whileTap={{ scale: 0.97 }}
                   >
                     {section}
-                  </button>
+                  </motion.button>
                 ))}
               </nav>
             </aside>
 
-            <div className="flex-1 lg:mx-12">
+            <div className="w-full lg:w-3/4">
               <input
                 type="text"
                 placeholder="Search FAQs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
+                className="w-full px-4 py-3 mb-6 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               />
               <AnimatePresence>
                 {filteredFAQs.length === 0 ? (
-                  <p className="text-gray-500 dark:text-gray-400">No results found.</p>
+                  <motion.p
+                    className="text-gray-500 dark:text-gray-400"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    No results found.
+                  </motion.p>
                 ) : (
                   filteredFAQs.map((faq, index) => {
                     const answerId = `faq-answer-${index}`;
                     return (
-                      <div key={index} className="mb-6">
+                      <motion.div
+                        key={index}
+                        className="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow p-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
                         <button
                           onClick={() => handleToggle(index)}
                           className="flex items-center w-full text-left focus:outline-none"
@@ -161,7 +181,7 @@ export default function FAQs() {
                               }
                             />
                           </svg>
-                          <h3 className="mx-4 text-lg text-gray-700 dark:text-white">
+                          <h3 className="mx-4 text-lg font-medium text-gray-800 dark:text-white">
                             {faq.question}
                           </h3>
                         </button>
@@ -173,7 +193,7 @@ export default function FAQs() {
                               animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.3 }}
-                              className="mt-4 md:mx-10 border-l-4 border-blue-500 pl-4 overflow-hidden"
+                              className="mt-4 border-l-4 border-blue-500 pl-4 overflow-hidden"
                             >
                               <p className="text-gray-600 dark:text-gray-300">
                                 {faq.answer}
@@ -181,8 +201,7 @@ export default function FAQs() {
                             </motion.div>
                           )}
                         </AnimatePresence>
-                        <hr className="mt-6 border-gray-200 dark:border-gray-700" />
-                      </div>
+                      </motion.div>
                     );
                   })
                 )}

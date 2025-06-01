@@ -1,10 +1,13 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
 import Header from "./Components/Header";
 import Header2 from "./Components/Header2";
 import MobileHeader from "./Components/MobileHeader";
 import { Footer } from "./Components/Footer";
 import ScrollToTop from "./Components/ScrollToTop";
+import PageWrapper from "./Components/PageWrapper";
 
 import Home from "./Pages/Home";
 import Personal from "./Pages/Personal";
@@ -33,8 +36,14 @@ import FAQs from "./Pages/support/FAQs";
 import LiveChat from "./Pages/support/LiveChat";
 import Support from "./Pages/Support";
 import OpenAccount from "./Pages/accounts/OpenAccount";
+import Troubleshooting from "./Pages/support/Troubleshooting";
+import Security from "./Pages/support/Security";
+import BusinessTools from "./Pages/support/BusinessTools";
+import GettingStarted from "./Pages/support/GettingStarted";
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
       <ScrollToTop />
@@ -51,43 +60,37 @@ function App() {
       </div>
 
       {/* Page Routes */}
-      <main className= "">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/personal" element={<Personal />} />
-          <Route path="/business" element={<Business />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/accounts/savings" element={<SavingsAccount />} />
-          <Route path="/accounts/current" element={<CurrentAccount />} />
-          <Route path="/accounts/business" element={<BusinessAccount />} />
-          <Route path="/accounts/student" element={<StudentAccount />} />
-          <Route path="/cards-loans/debit" element={<DebitCards />} />
-          <Route path="/cards-loans/credit" element={<CreditCards />} />
-          <Route
-            path="/cards-loans/personal-loans"
-            element={<PersonalLoans />}
-          />
-          <Route
-            path="/cards-loans/business-loans"
-            element={<BusinessLoans />}
-          />
-          <Route path="/services/mobile-banking" element={<MobileBanking />} />
-          <Route
-            path="/services/internet-banking"
-            element={<InternetBanking />}
-          />
-          <Route
-            path="/services/cardless-withdrawal"
-            element={<CardlessWithdrawal />}
-          />
-          <Route path="/services/qr-payments" element={<QRPayments />} />
-          <Route path="/support/help-center" element={<HelpCenter />} />
-          <Route path="/support/contact-us" element={<ContactUs />} />
-          <Route path="/support/faqs" element={<FAQs />} />
-          <Route path="/support/live-chat" element={<LiveChat />} />
-          <Route path="/accounts/open-acc" element={<OpenAccount />} />
-        </Routes>
+      <main className="">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="/personal" element={<PageWrapper><Personal /></PageWrapper>} />
+            <Route path="/business" element={<PageWrapper><Business /></PageWrapper>} />
+            <Route path="/support" element={<PageWrapper><Support /></PageWrapper>} />
+            <Route path="/about" element={<PageWrapper><AboutUs /></PageWrapper>} />
+            <Route path="/accounts/savings" element={<PageWrapper><SavingsAccount /></PageWrapper>} />
+            <Route path="/accounts/current" element={<PageWrapper><CurrentAccount /></PageWrapper>} />
+            <Route path="/accounts/business" element={<PageWrapper><BusinessAccount /></PageWrapper>} />
+            <Route path="/accounts/student" element={<PageWrapper><StudentAccount /></PageWrapper>} />
+            <Route path="/cards-loans/debit" element={<PageWrapper><DebitCards /></PageWrapper>} />
+            <Route path="/cards-loans/credit" element={<PageWrapper><CreditCards /></PageWrapper>} />
+            <Route path="/cards-loans/personal-loans" element={<PageWrapper><PersonalLoans /></PageWrapper>} />
+            <Route path="/cards-loans/business-loans" element={<PageWrapper><BusinessLoans /></PageWrapper>} />
+            <Route path="/services/mobile-banking" element={<PageWrapper><MobileBanking /></PageWrapper>} />
+            <Route path="/services/internet-banking" element={<PageWrapper><InternetBanking /></PageWrapper>} />
+            <Route path="/services/cardless-withdrawal" element={<PageWrapper><CardlessWithdrawal /></PageWrapper>} />
+            <Route path="/services/qr-payments" element={<PageWrapper><QRPayments /></PageWrapper>} />
+            <Route path="/support/help-center" element={<PageWrapper><HelpCenter /></PageWrapper>} />
+            <Route path="/support/contact-us" element={<PageWrapper><ContactUs /></PageWrapper>} />
+            <Route path="/support/faqs" element={<PageWrapper><FAQs /></PageWrapper>} />
+            <Route path="/support/live-chat" element={<PageWrapper><LiveChat /></PageWrapper>} />
+            <Route path="/accounts/open-acc" element={<PageWrapper><OpenAccount /></PageWrapper>} />
+            <Route path="/support/help-center/getting-started" element={<PageWrapper><GettingStarted /></PageWrapper>} />
+            <Route path="/support/help-center/business-tools" element={<PageWrapper><BusinessTools /></PageWrapper>} />
+            <Route path="/support/help-center/security" element={<PageWrapper><Security /></PageWrapper>} />
+            <Route path="/support/help-center/troubleshooting" element={<PageWrapper><Troubleshooting /></PageWrapper>} />
+          </Routes>
+        </AnimatePresence>
       </main>
 
       <Footer />
