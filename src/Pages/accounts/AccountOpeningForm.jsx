@@ -185,9 +185,9 @@ export default function AccountOpeningForm() {
       <form
         onSubmit={handleSubmit}
         ref={formRef}
-        className="max-w-6xl mx-auto pt-2 px-4 pb-4 md:pt-4 md:px-8 md:pb-8 space-y-10 bg-white print:bg-white print:p-6 shadow-lg rounded-xl text-sm print:text-black"
+        className="max-w-6xl mx-auto mb-24 mt-24 px-4 pb-4 md:pt-4 md:px-8 md:pb-8 space-y-10 bg-white print:bg-white print:p-6 shadow-lg rounded-xl text-sm print:text-black"
       >
-        <h2 className="text-3xl font-bold text-center">
+        <h2 className="text-3xl pt-16 font-bold text-center">
           URBank Account Opening Form
         </h2>
 

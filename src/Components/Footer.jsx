@@ -68,65 +68,218 @@ export const Footer = () => {
 
           <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
             <div>
-              <p className="font-semibold tracking-wide text-gray-500">Accounts</p>
+              <p className="font-semibold tracking-wide text-gray-500">
+                Accounts
+              </p>
               <ul className="mt-2 space-y-2">
-                <li><Link to="/accounts/savings" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Savings Account</Link></li>
-                <li><Link to="/accounts/current" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Current Account</Link></li>
-                <li><Link to="/accounts/business" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Business Account</Link></li>
-                <li><Link to="/accounts/student" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Student Account</Link></li>
+                <li>
+                  <Link
+                    to="/accounts/savings"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Savings Account
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/accounts/current"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Current Account
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/accounts/business"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Business Account
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/accounts/student"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Student Account
+                  </Link>
+                </li>
               </ul>
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-500">Cards & Loans</p>
+              <p className="font-semibold tracking-wide text-gray-500">
+                Cards & Loans
+              </p>
               <ul className="mt-2 space-y-2">
-                <li><Link to="/cards-loans/debit" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Debit Cards</Link></li>
-                <li><Link to="/cards-loans/credit" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Credit Cards</Link></li>
-                <li><Link to="/cards-loans/personal-loans" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Personal Loans</Link></li>
-                <li><Link to="/cards-loans/business-loans" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Business Loans</Link></li>
+                <li>
+                  <Link
+                    to="/cards-loans/debit"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Debit Cards
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/cards-loans/credit"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Credit Cards
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/cards-loans/personal-loans"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Personal Loans
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/cards-loans/business-loans"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Business Loans
+                  </Link>
+                </li>
               </ul>
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-500">Digital Services</p>
+              <p className="font-semibold tracking-wide text-gray-500">
+                Digital Services
+              </p>
               <ul className="mt-2 space-y-2">
-                <li><Link to="/services/mobile-banking" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Mobile Banking</Link></li>
-                <li><Link to="/services/internet-banking" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Internet Banking</Link></li>
-                <li><Link to="/services/cardless-withdrawal" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Cardless Withdrawal</Link></li>
-                <li><Link to="/services/qr-payments" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">QR Payments</Link></li>
+                <li>
+                  <Link
+                    to="/services/mobile-banking"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Mobile Banking
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/services/internet-banking"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Internet Banking
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/services/cardless-withdrawal"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Cardless Withdrawal
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/services/qr-payments"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    QR Payments
+                  </Link>
+                </li>
               </ul>
             </div>
 
             <div>
-              <p className="font-semibold tracking-wide text-gray-500">Support</p>
+              <p className="font-semibold tracking-wide text-gray-500">
+                Support
+              </p>
               <ul className="mt-2 space-y-2">
-                <li><Link to="/support/help-center" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Help Center</Link></li>
-                <li><Link to="/support/contact-us" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Contact Us</Link></li>
-                <li><Link to="/support/faqs" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">FAQs</Link></li>
-                <li><Link to="/support/live-chat" className="transition-colors duration-300 text-white hover:text-[#fbbf24]">Live Chat</Link></li>
+                <li>
+                  <Link
+                    to="/support/help-center"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Help Center
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/support/contact-us"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/support/faqs"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    FAQs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/support/live-chat"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Live Chat
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
         </div>
 
         <div className="text-white text-center my-12">
-          <h3 className="text-3xl mb-3 font-semibold">Download our Mobile App</h3>
+          <h3 className="text-3xl mb-3 font-semibold">
+            Download our Mobile App
+          </h3>
           <p>Stay connected. All day, every day.</p>
-          <div className="flex justify-center my-10 flex-wrap gap-4">
-            <div className="flex items-center border rounded-lg px-4 py-2 w-52 bg-gray-900">
-              <img src="https://cdn-icons-png.flaticon.com/512/888/888857.png" className="w-7 md:w-8" alt="Google Play" />
-              <div className="text-left ml-3">
-                <p className="text-xs text-gray-200">Download on</p>
-                <p className="text-sm md:text-base">Google Play Store</p>
-              </div>
-            </div>
-            <div className="flex items-center border rounded-lg px-4 py-2 w-44 bg-gray-900">
-              <img src="https://cdn-icons-png.flaticon.com/512/888/888841.png" className="w-7 md:w-8" alt="Apple Store" />
-              <div className="text-left ml-3">
-                <p className="text-xs text-gray-200">Download on</p>
-                <p className="text-sm md:text-base">Apple Store</p>
-              </div>
-            </div>
+
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-10">
+            {/* Google Play Badge */}
+            <a
+              href="https://play.google.com/store/apps"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download the app from Google Play Store"
+              className="hover:scale-105 transition transform"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                alt="Get it on Google Play"
+                className="h-14 w-auto"
+              />
+            </a>
+
+            {/* Apple App Store Badge */}
+            <a
+              href="https://www.apple.com/app-store/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download the app from Apple App Store"
+              className="hover:scale-105 transition transform"
+            >
+              <img
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                alt="Download on the App Store"
+                className="h-14 w-auto"
+              />
+            </a>
+
+            {/* Microsoft Store Badge */}
+            <a
+              href="https://apps.microsoft.com/home/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download the app from Microsoft Store"
+              className="hover:scale-105 transition transform"
+            >
+              <img
+                src="https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png"
+                alt="Get it from Microsoft"
+                className="h-14 w-auto"
+              />
+            </a>
           </div>
         </div>
 

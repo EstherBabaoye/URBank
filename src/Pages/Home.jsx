@@ -26,6 +26,7 @@ const featureCards = [
     image: "/debit-card.png",
     title: "Smart Debit Cards",
     text: "Pay on the go with stylish, secure cards accepted worldwide.",
+    link: "/cards-loans/debit-cards",
   },
   {
     image: "/personal-loan.png",
@@ -37,11 +38,13 @@ const featureCards = [
     image: "/business-banking.png",
     title: "Business Banking",
     text: "Empower your business with tools and support built for growth.",
+    link: "/business",
   },
   {
     image: "/mobile-banking.png",
     title: "Mobile Banking",
     text: "Manage your money from anywhere with our user-friendly mobile app.",
+    link: "/services/mobile-banking",
   },
 ];
 
@@ -65,6 +68,8 @@ export default function Home() {
   }, []);
 
   const [startIndex, setStartIndex] = useState(0);
+
+  const [showMap, setShowMap] = useState(false);
 
   const next = () => {
     if (startIndex + 3 < featureCards.length) {
@@ -95,10 +100,12 @@ export default function Home() {
             {
               title: "Private Banking",
               desc: "Product offerings designed to take the hassle away from managing your money.",
+              link: "/private-banking",
             },
             {
               title: "Affluent Banking",
               desc: "Download our mobile app and experience simpler, more reliable and convenient banking.",
+              link: "/affluent-banking",
             },
           ].map((card, index) => (
             <motion.div
@@ -112,9 +119,12 @@ export default function Home() {
                 </h3>
                 <p className="text-gray-600 text-base">{card.desc}</p>
               </div>
-              <button className="mt-6 bg-[#72cded] hover:text-[#fbbf24] text-[#051d40] text-sm sm:text-base md:text-lg font-semibold  py-3 rounded-md transition">
+              <Link
+                to={card.link}
+                className="mt-6 bg-[#72cded] hover:text-[#fbbf24] text-[#051d40] text-sm sm:text-base md:text-lg font-semibold py-3 rounded-md transition text-center"
+              >
                 LEARN MORE
-              </button>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
@@ -122,21 +132,76 @@ export default function Home() {
         {/* Right Yellow Stack */}
         <div className="flex flex-col gap-4 w-full sm:w-72 lg:w-[300px]">
           {[
-            { icon: "💳", title: "CARDS" },
-            { icon: "📍", title: "BRANCH LOCATOR" },
-            { icon: "📊", title: "FINANCIAL REPORTS" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="bg-[#72cded] text-[#051d40] font-bold text-lg rounded-lg flex items-center gap-4 p-4 shadow-md"
-            >
-              <div className="bg-white rounded-full h-12 w-12 flex items-center justify-center text-xl shadow-sm">
-                {item.icon}
-              </div>
-              <span>{item.title}</span>
-            </div>
-          ))}
+            {
+              icon: "💳",
+              title: "CARDS",
+              type: "link",
+              path: "/cards-loans/smart-cards",
+            },
+            {
+              icon: "📍",
+              title: "BRANCH LOCATOR",
+              type: "popup",
+              onClick: () => setShowMap(true),
+            },
+            {
+              icon: "📊",
+              title: "FINANCIAL REPORTS",
+              type: "link",
+              path: "/support/financial-reports",
+            },
+          ].map((item, index) =>
+            item.type === "link" ? (
+              <Link
+                key={index}
+                to={item.path}
+                className="bg-[#72cded] text-[#051d40] font-bold text-lg rounded-lg flex items-center gap-4 p-4 shadow-md hover:bg-[#5bb8d3] transition"
+              >
+                <div className="bg-white rounded-full h-12 w-12 flex items-center justify-center text-xl shadow-sm">
+                  {item.icon}
+                </div>
+                <span>{item.title}</span>
+              </Link>
+            ) : (
+              <button
+                key={index}
+                onClick={item.onClick}
+                className="bg-[#72cded] text-[#051d40] font-bold text-lg rounded-lg flex items-center gap-4 p-4 shadow-md hover:bg-[#5bb8d3] transition"
+              >
+                <div className="bg-white rounded-full h-12 w-12 flex items-center justify-center text-xl shadow-sm">
+                  {item.icon}
+                </div>
+                <span>{item.title}</span>
+              </button>
+            )
+          )}
         </div>
+
+        {/* Map Pop-up Modal */}
+        {showMap && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-3xl relative">
+              <h2 className="text-xl font-bold mb-4 text-[#051d40]">
+                Find a Branch Near You
+              </h2>
+              <iframe
+                src="https://www.google.com/maps/d/embed?mid=1160OarudgtG5qN4-xnIpX0wuppCQ6xo&ehbc=2E312F"
+                className="w-full h-[500px] rounded-xl shadow-lg border"
+                allowFullScreen=""
+                loading="lazy"
+                title="URBank Branch Locations"
+              />
+
+              <button
+                onClick={() => setShowMap(false)}
+                className="absolute top-3 right-3 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-700"
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Video */}

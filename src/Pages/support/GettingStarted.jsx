@@ -1,12 +1,31 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { DownloadCloud, UserCheck, CreditCard, Target, CheckCircle2 } from "lucide-react";
+import {
+  DownloadCloud,
+  UserCheck,
+  CreditCard,
+  Target,
+  CheckCircle2,
+} from "lucide-react";
 
 export default function GettingStarted() {
   useEffect(() => {
     document.title = "Getting Started";
   }, []);
 
+  const handleAppDownload = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/android/i.test(userAgent)) {
+      window.location.href = "https://play.google.com/store/apps/";
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      window.location.href = "https://www.apple.com/app-store/";
+    } else if (/Win|Mac|Linux/i.test(navigator.platform)) {
+      window.location.href = "https://apps.microsoft.com/home/";
+    } else {
+      alert("Please visit our app on your device's store.");
+    }
+  };
   const steps = [
     {
       icon: <DownloadCloud className="text-blue-600 w-6 h-6" />,
@@ -85,14 +104,12 @@ export default function GettingStarted() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
       >
-        <a
-          href="https://www.urbankapp.com/download" // Replace with actual download link
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105"
+        <button
+          onClick={handleAppDownload}
+          className="inline-block mt-8 px-6 py-3 bg-[#051d40] text-white font-semibold rounded-xl hover:bg-[#03306b] transition"
         >
-          Download the URBank App
-        </a>
+          Download the App
+        </button>
       </motion.div>
     </motion.div>
   );

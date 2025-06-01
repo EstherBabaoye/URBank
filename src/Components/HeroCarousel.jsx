@@ -16,7 +16,7 @@ const slides = [
     subtitle: 'Your money, your security',
     description:
       'Enjoy peace of mind with fingerprint and face ID login features. Our app is built with next-gen protection for modern banking.',
-    route: '/features/secure-banking',
+    route: '/services/secure-banking',
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const slides = [
     subtitle: 'Total freedom at your fingertips',
     description:
       'Whether you’re on a beach or in bed, check balances and make transfers with ease. Banking that moves with you.',
-    route: '/features/mobile-banking',
+    route: '/services/mobile-banking',
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const slides = [
     subtitle: 'Banking made simple',
     description:
       'Start your financial journey from your phone. Open an account in just a few steps—fast, friendly, and easy.',
-    route: '/features/open-account',
+    route: '/accounts/open-account',
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const slides = [
     subtitle: 'Tap. Pay. Done.',
     description:
       'Make purchases quickly with our sleek debit and credit cards. Designed for speed, security, and style.',
-    route: '/features/smart-cards',
+    route: '/cards-loans/smart-cards',
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const slides = [
     subtitle: 'Know where every naira goes',
     description:
       'Visualize spending habits and set goals with ease. Our app gives you clarity and control over your finances.',
-    route: '/features/track-finances',
+    route: '/services/track-finances',
   },
   {
     id: 6,
@@ -61,7 +61,7 @@ const slides = [
     subtitle: 'Tailored support for entrepreneurs',
     description:
       'From transactions to tools, we’re here for your business every step of the way. Let’s build success together.',
-    route: '/business/grow',
+    route: '/support/help-center/business-tools',
   },
   {
     id: 7,

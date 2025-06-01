@@ -8,7 +8,11 @@ const fadeInUp = {
 
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const bounceUp = {
@@ -80,7 +84,8 @@ export default function Business() {
           style={{ y: heroY }}
           className="text-xl text-gray-800 max-w-3xl mx-auto"
         >
-          Flexible banking solutions tailored for startups, SMEs, and corporations—because your business deserves more than just a bank.
+          Flexible banking solutions tailored for startups, SMEs, and
+          corporations—because your business deserves more than just a bank.
         </motion.p>
       </motion.section>
 
@@ -109,7 +114,9 @@ export default function Business() {
               role="img"
             >
               <span>{emoji}</span>
-              <p className="text-[#051d40] font-semibold text-lg mt-4">{text}</p>
+              <p className="text-[#051d40] font-semibold text-lg mt-4">
+                {text}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -281,7 +288,6 @@ export default function Business() {
         </div>
       </motion.section>
 
-      {/* CTA */}
       <motion.section
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -291,7 +297,8 @@ export default function Business() {
       >
         <h2 className="text-4xl font-bold mb-4">Ready to Bank Smarter?</h2>
         <p className="max-w-xl mx-auto text-xl mb-6">
-          Open a business account or speak to an advisor—URBank is built for you.
+          Open a business account or explore tools to grow your business—URBank
+          is built for you.
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
           <motion.a
@@ -300,15 +307,15 @@ export default function Business() {
             href="/accounts/business"
             className="bg-white text-[#051d40] font-bold px-6 py-3 rounded-full shadow hover:bg-gray-200 transition"
           >
-            Open Account
+            Open a Business Account
           </motion.a>
           <motion.a
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            href="/support/contact-us"
+            href="/support/help-center/business-tools"
             className="border border-white px-6 py-3 rounded-full hover:bg-white hover:text-[#051d40] transition font-bold"
           >
-            Talk to Us
+            Check Business Tools
           </motion.a>
         </div>
       </motion.section>
