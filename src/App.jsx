@@ -6,9 +6,11 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { useAuth } from "./Components/AuthContext";
+import Layout from "./Layout/Layout";
 import { AnimatePresence } from "framer-motion";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 import Header from "./Components/Header";
 import Header2 from "./Components/Header2";
@@ -56,30 +58,45 @@ import AccountOpeningForm from "./Pages/accounts/AccountOpeningForm";
 import PrivateBanking from "./Pages/PrivateBanking";
 import AffluentBanking from "./Pages/AffluentBanking";
 import FinancialReports from "./Pages/support/FinancialReports";
+import WelcomeDashboard from "./Pages/WelcomeDashboard";
+import TransactionHistory from "./Pages/TransactionHistory";
+import Frequent from "./Pages/Frequent";
+import UserProfile from "./Pages/UserProfile";
+import AccSettings from "./Pages/AccSettings";
+import PrivacyPolicy from "./Pages/support/PrivacyPolicy";
+import Transfers from "./Pages/Transfers";
+import URBTransfer from "./Pages/URBTransfer";
+import OtherTrans from "./Pages/OtherTrans";
+import Bills from "./Pages/Bills";
+import Register from "./Pages/internet-banking/Register";
+import ForgotPin from "./Pages/internet-banking/ForgotPin";
+import ResetPin from "./Pages/internet-banking/ResetPin";
 
 
 
 function App() {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-  AOS.init({ once: true });
-}, []);
+    AOS.init({ once: true });
+  }, []);
 
   return (
     <>
+    <Layout>
       <ScrollToTop />
 
-      {/* Desktop Headers */}
+      {/* Desktop Headers
       <div className="hidden md:block">
         <Header />
         <Header2 />
-      </div>
+      </div> */}
 
-      {/* Mobile Header */}
+      {/* Mobile Header
       <div className="block md:hidden">
         <MobileHeader />
-      </div>
+      </div> */}
 
       {/* Page Routes */}
       <main className="">
@@ -201,7 +218,7 @@ function App() {
               path="/cards-loans/applycard"
               element={
                 <PageWrapper>
-                  < CardApplication/>
+                  <CardApplication />
                 </PageWrapper>
               }
             />
@@ -325,7 +342,7 @@ function App() {
                 </PageWrapper>
               }
             />
-            
+
             <Route
               path="/support/help-center/getting-started"
               element={
@@ -358,11 +375,131 @@ function App() {
                 </PageWrapper>
               }
             />
+
+            <Route
+              path="/dashboard"
+              element={
+                <PageWrapper>
+                  <WelcomeDashboard />
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/transaction-history"
+              element={
+                <PageWrapper>
+                  <TransactionHistory />
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/frequent"
+              element={
+                <PageWrapper>
+                  <Frequent/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/profile"
+              element={
+                <PageWrapper>
+                  <UserProfile/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/acc-settings"
+              element={
+                <PageWrapper>
+                  <AccSettings/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/support/privacy-policy"
+              element={
+                <PageWrapper>
+                  <PrivacyPolicy/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/transfer"
+              element={
+                <PageWrapper>
+                  <Transfers/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/URB-transfer"
+              element={
+                <PageWrapper>
+                  <URBTransfer/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/other"
+              element={
+                <PageWrapper>
+                  <OtherTrans/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/bills"
+              element={
+                <PageWrapper>
+                  <Bills/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/internet-banking/register"
+              element={
+                <PageWrapper>
+                  <Register/>
+                </PageWrapper>
+              }
+            />
+
+            <Route
+              path="/internet-banking/forgot-pin"
+              element={
+                <PageWrapper>
+                  <ForgotPin/>
+                </PageWrapper>
+              }
+            />
+
+             <Route
+              path="/internet-banking/reset-pin"
+              element={
+                <PageWrapper>
+                  <ResetPin/>
+                </PageWrapper>
+              }
+            /> 
+
+
           </Routes>
         </AnimatePresence>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
+      </Layout>
     </>
   );
 }

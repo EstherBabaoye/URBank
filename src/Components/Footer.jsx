@@ -224,6 +224,14 @@ export const Footer = () => {
                     Live Chat
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/support/privacy-policy"
+                    className="transition-colors duration-300 text-white hover:text-[#fbbf24]"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
