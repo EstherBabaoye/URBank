@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { PhoneIcon, EnvelopeIcon, MapPinIcon } from "@heroicons/react/24/outline";
-
+import {
+  PhoneIcon,
+  EnvelopeIcon,
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 
 export default function ContactUs() {
   useEffect(() => {
@@ -37,16 +40,27 @@ export default function ContactUs() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length === 0) {
-      // Simulate form submission
-      setSubmitted(true);
-      setForm({ name: "", email: "", message: "" });
-      setTimeout(() => setSubmitted(false), 4000);
-    } else {
-      setErrors(errs);
-    }
+    fetch("http://localhost:5050/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          setSubmitted(true);
+          setForm({ name: "", email: "", message: "" });
+          setErrors({});
+          setTimeout(() => setSubmitted(false), 4000);
+        } else {
+          setErrors({ general: data.error });
+        }
+      })
+      .catch((err) => {
+        setErrors({ general: "Failed to send message. Try again later." });
+      });
   };
 
   return (
@@ -96,8 +110,8 @@ export default function ContactUs() {
           {/* Map embed placeholder */}
           <div className="mt-8 rounded-xl overflow-hidden shadow-md">
             <iframe
-              title="URBank Office Location"
-              src="https://maps.google.com/maps?q=Lagos%20Nigeria&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              title="URBank Branch Locations"
+              src="https://www.google.com/maps/d/embed?mid=1160OarudgtG5qN4-xnIpX0wuppCQ6xo&ehbc=2E312F"
               className="w-full h-48 md:h-56"
               loading="lazy"
             />

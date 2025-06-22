@@ -19,6 +19,7 @@ export default function ForgotPin() {
     "What was the name of your first pet?",
     "What is your favorite teacher's name?",
     "What was your childhood nickname?",
+    "What is your favorite food?",
   ];
 
   const handleChange = (e) => {

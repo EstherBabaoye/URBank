@@ -128,11 +128,11 @@ export default function Register() {
         payload
       );
 
-      console.log("✅ Registration Success:", res.data);
+      console.log(" Registration Success:", res.data);
       navigate("/services/internet-banking");
     } catch (err) {
       console.error(
-        "❌ Registration Error:",
+        " Registration Error:",
         err.response?.data || err.message
       );
       alert("Registration failed. Please check your details and try again.");
