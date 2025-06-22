@@ -11,10 +11,16 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Components/AuthContext";
+import axios from "axios";
+
+//
 
 export default function InternetBanking() {
+  const [email, setEmail] = useState("");
   const [mpin, setMpin] = useState("");
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(null);
+  const [showResend, setShowResend] = useState(false); // add this
+
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
@@ -28,16 +34,57 @@ export default function InternetBanking() {
   }, [mpin]);
 
   const handleInputChange = (e) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
-    setMpin(value);
+    const { name, value } = e.target;
+    if (name === "mpin") {
+      const sanitized = value.replace(/\D/g, "").slice(0, 6);
+      setMpin(sanitized);
+    } else if (name === "email") {
+      setEmail(value);
+    }
   };
 
-  const handleSubmit = () => {
-    if (mpin.length === 6) {
-      setIsAuthenticated(true);
-      navigate("/dashboard");
-    } else {
-      setShowErrorModal(true);
+  const handleSubmit = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (mpin.length !== 6) {
+      setShowErrorModal("Please enter your complete 6-digit PIN.");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5050/internetbanking/login",
+        { email, mpin },
+        { withCredentials: true } // ✅ Add this if using sessions
+      );
+
+      if (res.status === 200) {
+        setIsAuthenticated(true);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      const message = err.response?.data?.message || "Login failed.";
+      setShowErrorModal(message);
+      setShowResend(message === "Email not verified."); // 👈 only show button if email not verified
+    }
+  };
+
+  const handleResendEmail = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5050/internetbanking/resend-verification", // ✅ Correct
+        { email },
+        { withCredentials: true } // Optional if using cookies/session
+      );
+
+      alert("Verification email resent. Please check your inbox.");
+    } catch (err) {
+      alert("Failed to resend email.");
+      console.error(err);
     }
   };
 
@@ -79,29 +126,54 @@ export default function InternetBanking() {
         ))}
       </div>
 
+      <div className="mb-6">
+        <label className="block mb-2 flex mt-12 justify-center text-sm text-gray-300 text-left">
+          Registered Email Address
+        </label>
+        <div className="mb-6 flex justify-center">
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleInputChange}
+            placeholder="e.g. user@example.com"
+            className="w-full max-w-sm text-center px-4 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            required
+          />
+        </div>
+      </div>
+
       <div className="max-w-md mx-auto mt-12 text-center px-4">
-        <p className="mb-4 text-gray-300">Enter your PIN to login</p>
+        <p className="text-gray-700 text-sm mb-4">{showErrorModal}</p>
+
+        {/* ✅ Visible Input with blinking cursor */}
         <input
           type="password"
           inputMode="numeric"
           maxLength="6"
-          className="opacity-0 absolute"
           value={mpin}
           onChange={handleInputChange}
+          name="mpin"
           autoFocus
+          className="w-0 h-0 opacity-0 absolute"
         />
+
         <div
           className="flex justify-center gap-2 mb-4"
-          onClick={() =>
-            document.querySelector("input[type='password']").focus()
-          }
+          onClick={() => document.querySelector("input[name='mpin']").focus()}
         >
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className="w-8 h-8 border-b-2 border-white text-white text-center text-lg font-bold"
+              className={`w-8 h-10 border-b-2 text-white text-center text-xl font-bold ${
+                mpin[i] ? "border-white" : "border-gray-500"
+              }`}
             >
-              {mpin[i] ? "•" : ""}
+              {mpin[i]
+                ? "•"
+                : i === mpin.length && (
+                    <span className="animate-pulse opacity-50">|</span>
+                  )}
             </div>
           ))}
         </div>
@@ -127,20 +199,28 @@ export default function InternetBanking() {
 
       <p className="text-center text-gray-500 text-xs mt-10">Version 1.0.0</p>
 
-      {/* ❌ Error Modal */}
       {showErrorModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">
-            <h2 className="text-lg font-bold text-red-600 mb-2">Invalid PIN</h2>
-            <p className="text-gray-700 text-sm mb-4">
-              Please enter your complete 6-digit mPIN to proceed.
-            </p>
+            <h2 className="text-lg font-bold text-red-600 mb-2">
+              Login Failed
+            </h2>
+            <p className="text-gray-700 text-sm mb-4">{showErrorModal}</p>
             <button
-              onClick={() => setShowErrorModal(false)}
-              className="bg-yellow-400 text-[#051d40] px-4 py-2 rounded font-semibold hover:bg-yellow-300"
+              onClick={() => setShowErrorModal(null)}
+              className="bg-yellow-400 text-[#051d40] px-4 py-2 rounded font-semibold hover:bg-yellow-300 mb-2"
             >
               Try Again
             </button>
+
+            {showResend && (
+              <button
+                onClick={handleResendEmail}
+                className="text-sm text-blue-600 underline hover:text-blue-800"
+              >
+                Resend Verification Email
+              </button>
+            )}
           </div>
         </div>
       )}

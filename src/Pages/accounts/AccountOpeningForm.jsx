@@ -3,6 +3,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 export default function AccountOpeningForm() {
   useEffect(() => {
@@ -129,17 +130,54 @@ export default function AccountOpeningForm() {
       newErrors.email = "Valid email is required";
     if (!formData.dateOfBirth)
       newErrors.dateOfBirth = "Date of Birth is required";
-    if (!formData.phone) newErrors.phone = "Phone number is required";
+    const phoneRegex = /^(\+234|0)[789][01]\d{8}$/;
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(formData.phone.trim())) {
+      newErrors.phone = "Enter a valid Nigerian phone number";
+    }
     if (!formData.idType) newErrors.idType = "Select an ID type";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log(formData);
+      const data = new FormData();
+
+      for (const key in formData) {
+        if (
+          formData[key] instanceof File ||
+          typeof formData[key] === "string"
+        ) {
+          data.append(key, formData[key]);
+        } else if (Array.isArray(formData[key])) {
+          formData[key].forEach((item, index) => {
+            data.append(`${key}[${index}]`, item);
+          });
+        } else {
+          data.append(key, formData[key]);
+        }
+      }
+
+      try {
+        const res = await axios.post("http://localhost:5050/account/open", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        alert("Form submitted successfully!");
+        console.log(res.data);
+      } catch (err) {
+        console.error(
+          " Submission Error:",
+          err.response?.data || err.message
+        );
+        alert("Something went wrong while submitting the form.");
+      }
     }
   };
 
@@ -178,7 +216,13 @@ export default function AccountOpeningForm() {
   const inputClass =
     "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600";
 
-  const previewImage = (file) => file && URL.createObjectURL(file);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // ✅ file is defined here
+    if (file && file instanceof Blob) {
+      const previewUrl = URL.createObjectURL(file);
+      setPreviewUrl(previewUrl);
+    }
+  };
 
   return (
     <>
@@ -201,7 +245,7 @@ export default function AccountOpeningForm() {
               name="title"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Title</option>
               <option value="Mr">Mr</option>
@@ -243,13 +287,13 @@ export default function AccountOpeningForm() {
               placeholder="Mother's Maiden Name"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <select
               name="gender"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Gender</option>
               <option value="F">Female</option>
@@ -264,7 +308,7 @@ export default function AccountOpeningForm() {
               dateFormat="dd/MM/yyyy"
               placeholderText="Select Date of Birth"
               className={inputClass}
-              required
+              //required
             />
 
             {errors.dateOfBirth && (
@@ -274,7 +318,7 @@ export default function AccountOpeningForm() {
               name="maritalStatus"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Marital Status</option>
               <option value="single">Single</option>
@@ -289,21 +333,21 @@ export default function AccountOpeningForm() {
               placeholder="Nationality"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="stateOfOrigin"
               placeholder="State of Origin"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="lgaOfOrigin"
               placeholder="LGA of Origin"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
 
             <label className="flex flex-col">
@@ -320,7 +364,7 @@ export default function AccountOpeningForm() {
                 name="passportPhoto"
                 accept=".jpg,.jpeg,.png,.pdf"
                 onChange={handleChange}
-                required
+                //required
                 className="file-input mt-2"
               />
               {errors.passportPhoto && (
@@ -344,7 +388,7 @@ export default function AccountOpeningForm() {
                 name="utilityBill"
                 onChange={handleChange}
                 accept=".jpg,.jpeg,.png,.pdf"
-                required
+                //required
                 className="file-input mt-2"
               />
               {errors.utilityBill && (
@@ -365,35 +409,35 @@ export default function AccountOpeningForm() {
               placeholder="House Number"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="streetName"
               placeholder="Street Name"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="city"
               placeholder="City/Town"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="residentialLGA"
               placeholder="LGA"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="residentialState"
               placeholder="State"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="phone"
@@ -421,7 +465,7 @@ export default function AccountOpeningForm() {
               className={inputClass}
               onChange={handleChange}
               value={formData.employmentStatus}
-              required
+              ///required
             >
               <option value="">Select Employment Status</option>
               <option value="Employed">Employed</option>
@@ -436,20 +480,20 @@ export default function AccountOpeningForm() {
               placeholder="Employer Name"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="employerAddress"
               placeholder="Employer Address"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <select
               name="annualIncome"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Annual Income Range</option>
               <option value="0-50,000">₦0 - ₦50,000</option>
@@ -521,7 +565,7 @@ export default function AccountOpeningForm() {
               placeholder="BVN"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
 
             <input
@@ -529,7 +573,7 @@ export default function AccountOpeningForm() {
               placeholder="NIN"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
 
             <input
@@ -554,7 +598,7 @@ export default function AccountOpeningForm() {
                 name="uploadedIdFile"
                 accept=".jpg,.jpeg,.png,.pdf"
                 onChange={handleChange}
-                required
+                //required
                 className="file-input mt-2"
               />
               {errors.uploadedIdFile && (
@@ -575,7 +619,7 @@ export default function AccountOpeningForm() {
               placeholder="First Name"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="nokMiddleName"
@@ -588,13 +632,13 @@ export default function AccountOpeningForm() {
               placeholder="Surname"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <select
               name="nokGender"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Gender</option>
               <option value="F">Female</option>
@@ -609,21 +653,21 @@ export default function AccountOpeningForm() {
               dateFormat="dd/MM/yyyy"
               placeholderText="Select Next of Kin Date of Birth"
               className={inputClass}
-              required
+              //required
             />
             <input
               name="nokRelationship"
               placeholder="Relationship"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="nokPhone"
               placeholder="Phone"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
             <input
               name="nokEmail"
@@ -636,7 +680,7 @@ export default function AccountOpeningForm() {
               placeholder="Address"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             />
           </div>
         </section>
@@ -649,7 +693,7 @@ export default function AccountOpeningForm() {
               name="accountType"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Account Type</option>
               <option value="savings">Savings</option>
@@ -661,7 +705,7 @@ export default function AccountOpeningForm() {
               name="cardType"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
             >
               <option value="">Select Card Type</option>
               <option value="mastercard">MasterCard</option>
@@ -733,7 +777,7 @@ export default function AccountOpeningForm() {
               className={inputClass}
               onChange={handleChange}
               value={formData.mandateFirstName}
-              required
+              //required
             />
             <input
               name="mandateMiddleName"
@@ -748,7 +792,7 @@ export default function AccountOpeningForm() {
               className={inputClass}
               onChange={handleChange}
               value={formData.mandateSurname}
-              required
+              //required
             />
             <select
               name="mandateIdType"
@@ -775,7 +819,7 @@ export default function AccountOpeningForm() {
               className={inputClass}
               onChange={handleChange}
               value={formData.mandatePhone}
-              required
+              //required
             />
             <DatePicker
               selected={dob}
@@ -786,7 +830,7 @@ export default function AccountOpeningForm() {
               dateFormat="dd/MM/yyyy"
               placeholderText="Mandate Date"
               className={inputClass}
-              required
+              //required
             />
 
             <label className="flex flex-col">
@@ -803,7 +847,7 @@ export default function AccountOpeningForm() {
                 name="mandateSignature"
                 accept=".jpg,.jpeg,.png,.pdf"
                 onChange={handleChange}
-                required
+                //required
                 className="file-input mt-2"
               />
               {errors.mandateSignature && (
@@ -834,7 +878,7 @@ export default function AccountOpeningForm() {
               placeholder="Your Name"
               className={inputClass}
               onChange={handleChange}
-              required
+              //required
               value={formData.declarationName}
             />
 
@@ -849,7 +893,7 @@ export default function AccountOpeningForm() {
               dateFormat="dd/MM/yyyy"
               placeholderText="Declaration Date"
               className={inputClass}
-              required
+              //required
             />
 
             <label className="flex flex-col">
@@ -866,7 +910,7 @@ export default function AccountOpeningForm() {
                 name="declarationSignature"
                 onChange={handleChange}
                 accept=".jpg,.jpeg,.png,.pdf"
-                required
+                //required
                 className="file-input mt-2"
               />
               {errors.declarationSignature && (

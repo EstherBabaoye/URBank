@@ -71,8 +71,10 @@ import Bills from "./Pages/Bills";
 import Register from "./Pages/internet-banking/Register";
 import ForgotPin from "./Pages/internet-banking/ForgotPin";
 import ResetPin from "./Pages/internet-banking/ResetPin";
-
-
+import AdminApproval from "./Pages/AdminApproval";
+import AdminLogin from "./Pages/AdminLogin";
+import AdminDashboard from "./Pages/AdminDashboard";
+import PendingCards from "./Pages/PendingCards";
 
 function App() {
   const location = useLocation();
@@ -84,421 +86,433 @@ function App() {
 
   return (
     <>
-    <Layout>
-      <ScrollToTop />
+      <Layout>
+        <ScrollToTop />
 
-      {/* Desktop Headers
+        {/* Desktop Headers
       <div className="hidden md:block">
         <Header />
         <Header2 />
       </div> */}
 
-      {/* Mobile Header
+        {/* Mobile Header
       <div className="block md:hidden">
         <MobileHeader />
       </div> */}
 
-      {/* Page Routes */}
-      <main className="">
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route
-              path="/"
-              element={
-                <PageWrapper>
-                  <Home />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/personal"
-              element={
-                <PageWrapper>
-                  <Personal />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/business"
-              element={
-                <PageWrapper>
-                  <Business />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support"
-              element={
-                <PageWrapper>
-                  <Support />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <PageWrapper>
-                  <AboutUs />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/private-banking"
-              element={
-                <PageWrapper>
-                  <PrivateBanking />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/affluent-banking"
-              element={
-                <PageWrapper>
-                  <AffluentBanking />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/savings"
-              element={
-                <PageWrapper>
-                  <SavingsAccount />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/current"
-              element={
-                <PageWrapper>
-                  <CurrentAccount />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/business"
-              element={
-                <PageWrapper>
-                  <BusinessAccount />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/student"
-              element={
-                <PageWrapper>
-                  <StudentAccount />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/open-account"
-              element={
-                <PageWrapper>
-                  <OpenAccount />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/accounts/account-opening-form"
-              element={
-                <PageWrapper>
-                  <AccountOpeningForm />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/debit"
-              element={
-                <PageWrapper>
-                  <DebitCards />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/applycard"
-              element={
-                <PageWrapper>
-                  <CardApplication />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/credit"
-              element={
-                <PageWrapper>
-                  <CreditCards />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/smart-cards"
-              element={
-                <PageWrapper>
-                  <SmartCards />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/personal-loans"
-              element={
-                <PageWrapper>
-                  <PersonalLoans />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/cards-loans/business-loans"
-              element={
-                <PageWrapper>
-                  <BusinessLoans />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/mobile-banking"
-              element={
-                <PageWrapper>
-                  <MobileBanking />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/secure-banking"
-              element={
-                <PageWrapper>
-                  <SecureBanking />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/internet-banking"
-              element={
-                <PageWrapper>
-                  <InternetBanking />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/cardless-withdrawal"
-              element={
-                <PageWrapper>
-                  <CardlessWithdrawal />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/qr-payments"
-              element={
-                <PageWrapper>
-                  <QRPayments />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/services/track-finances"
-              element={
-                <PageWrapper>
-                  <TrackFinances />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/help-center"
-              element={
-                <PageWrapper>
-                  <HelpCenter />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/contact-us"
-              element={
-                <PageWrapper>
-                  <ContactUs />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/financial-reports"
-              element={
-                <PageWrapper>
-                  <FinancialReports />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/faqs"
-              element={
-                <PageWrapper>
-                  <FAQs />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/live-chat"
-              element={
-                <PageWrapper>
-                  <LiveChat />
-                </PageWrapper>
-              }
-            />
+        {/* Page Routes */}
+        <main className="">
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route
+                path="/"
+                element={
+                  <PageWrapper>
+                    <Home />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/personal"
+                element={
+                  <PageWrapper>
+                    <Personal />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/business"
+                element={
+                  <PageWrapper>
+                    <Business />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support"
+                element={
+                  <PageWrapper>
+                    <Support />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PageWrapper>
+                    <AboutUs />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/private-banking"
+                element={
+                  <PageWrapper>
+                    <PrivateBanking />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/affluent-banking"
+                element={
+                  <PageWrapper>
+                    <AffluentBanking />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/savings"
+                element={
+                  <PageWrapper>
+                    <SavingsAccount />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/current"
+                element={
+                  <PageWrapper>
+                    <CurrentAccount />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/business"
+                element={
+                  <PageWrapper>
+                    <BusinessAccount />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/student"
+                element={
+                  <PageWrapper>
+                    <StudentAccount />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/open-account"
+                element={
+                  <PageWrapper>
+                    <OpenAccount />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/accounts/account-opening-form"
+                element={
+                  <PageWrapper>
+                    <AccountOpeningForm />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/debit"
+                element={
+                  <PageWrapper>
+                    <DebitCards />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/applycard"
+                element={
+                  <PageWrapper>
+                    <CardApplication />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/credit"
+                element={
+                  <PageWrapper>
+                    <CreditCards />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/smart-cards"
+                element={
+                  <PageWrapper>
+                    <SmartCards />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/personal-loans"
+                element={
+                  <PageWrapper>
+                    <PersonalLoans />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/cards-loans/business-loans"
+                element={
+                  <PageWrapper>
+                    <BusinessLoans />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/mobile-banking"
+                element={
+                  <PageWrapper>
+                    <MobileBanking />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/secure-banking"
+                element={
+                  <PageWrapper>
+                    <SecureBanking />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/internet-banking"
+                element={
+                  <PageWrapper>
+                    <InternetBanking />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/cardless-withdrawal"
+                element={
+                  <PageWrapper>
+                    <CardlessWithdrawal />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/qr-payments"
+                element={
+                  <PageWrapper>
+                    <QRPayments />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/services/track-finances"
+                element={
+                  <PageWrapper>
+                    <TrackFinances />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/help-center"
+                element={
+                  <PageWrapper>
+                    <HelpCenter />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/contact-us"
+                element={
+                  <PageWrapper>
+                    <ContactUs />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/financial-reports"
+                element={
+                  <PageWrapper>
+                    <FinancialReports />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/faqs"
+                element={
+                  <PageWrapper>
+                    <FAQs />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/live-chat"
+                element={
+                  <PageWrapper>
+                    <LiveChat />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/support/help-center/getting-started"
-              element={
-                <PageWrapper>
-                  <GettingStarted />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/help-center/business-tools"
-              element={
-                <PageWrapper>
-                  <BusinessTools />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/help-center/security"
-              element={
-                <PageWrapper>
-                  <Security />
-                </PageWrapper>
-              }
-            />
-            <Route
-              path="/support/help-center/troubleshooting"
-              element={
-                <PageWrapper>
-                  <Troubleshooting />
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/support/help-center/getting-started"
+                element={
+                  <PageWrapper>
+                    <GettingStarted />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/help-center/business-tools"
+                element={
+                  <PageWrapper>
+                    <BusinessTools />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/help-center/security"
+                element={
+                  <PageWrapper>
+                    <Security />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/support/help-center/troubleshooting"
+                element={
+                  <PageWrapper>
+                    <Troubleshooting />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/dashboard"
-              element={
-                <PageWrapper>
-                  <WelcomeDashboard />
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/dashboard"
+                element={
+                  <PageWrapper>
+                    <WelcomeDashboard />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/transaction-history"
-              element={
-                <PageWrapper>
-                  <TransactionHistory />
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/transaction-history"
+                element={
+                  <PageWrapper>
+                    <TransactionHistory />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/frequent"
-              element={
-                <PageWrapper>
-                  <Frequent/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/frequent"
+                element={
+                  <PageWrapper>
+                    <Frequent />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/profile"
-              element={
-                <PageWrapper>
-                  <UserProfile/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/profile"
+                element={
+                  <PageWrapper>
+                    <UserProfile />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/acc-settings"
-              element={
-                <PageWrapper>
-                  <AccSettings/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/acc-settings"
+                element={
+                  <PageWrapper>
+                    <AccSettings />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/support/privacy-policy"
-              element={
-                <PageWrapper>
-                  <PrivacyPolicy/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/support/privacy-policy"
+                element={
+                  <PageWrapper>
+                    <PrivacyPolicy />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/transfer"
-              element={
-                <PageWrapper>
-                  <Transfers/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/transfer"
+                element={
+                  <PageWrapper>
+                    <Transfers />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/URB-transfer"
-              element={
-                <PageWrapper>
-                  <URBTransfer/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/URB-transfer"
+                element={
+                  <PageWrapper>
+                    <URBTransfer />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/other"
-              element={
-                <PageWrapper>
-                  <OtherTrans/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/other"
+                element={
+                  <PageWrapper>
+                    <OtherTrans />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/bills"
-              element={
-                <PageWrapper>
-                  <Bills/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/bills"
+                element={
+                  <PageWrapper>
+                    <Bills />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/internet-banking/register"
-              element={
-                <PageWrapper>
-                  <Register/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/internet-banking/register"
+                element={
+                  <PageWrapper>
+                    <Register />
+                  </PageWrapper>
+                }
+              />
 
-            <Route
-              path="/internet-banking/forgot-pin"
-              element={
-                <PageWrapper>
-                  <ForgotPin/>
-                </PageWrapper>
-              }
-            />
+              <Route
+                path="/internet-banking/forgot-pin"
+                element={
+                  <PageWrapper>
+                    <ForgotPin />
+                  </PageWrapper>
+                }
+              />
 
-             <Route
-              path="/internet-banking/reset-pin"
-              element={
-                <PageWrapper>
-                  <ResetPin/>
-                </PageWrapper>
-              }
-            /> 
+              <Route
+                path="/internet-banking/reset-pin"
+                element={
+                  <PageWrapper>
+                    <ResetPin />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <PageWrapper>
+                    <AdminApproval/>
+                  </PageWrapper>
+                }
+              />
 
+              <Route path="/admin-login" element={<PageWrapper><AdminLogin /></PageWrapper>} />
 
-          </Routes>
-        </AnimatePresence>
-      </main>
+              <Route path="/admin-dashboard" element={<PageWrapper><AdminDashboard /></PageWrapper>} />
 
-      {/* <Footer /> */}
+              <Route path="/admin/pending-cards" element={<PageWrapper><PendingCards /></PageWrapper>} />
+            </Routes>
+          </AnimatePresence>
+        </main>
+
+        {/* <Footer /> */}
       </Layout>
     </>
   );

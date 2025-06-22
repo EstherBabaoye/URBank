@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function CardApplication() {
   useEffect(() => {
@@ -6,21 +7,23 @@ export default function CardApplication() {
   }, []);
 
   const [form, setForm] = useState({
-    fullName: "",
+    firstName: "",
+    middleName: "",
+    surname: "",
     email: "",
     phone: "",
     cardType: "",
     subCardType: "",
-    address: "",
     reason: "",
     otherReason: "",
+    accountNumber: "",
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [serverError, setServerError] = useState("");
 
-  // Automatically hide success message after 15 seconds
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => setSuccess(false), 15000);
@@ -32,13 +35,16 @@ export default function CardApplication() {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+    setServerError("");
   };
 
   const validate = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!form.fullName) newErrors.fullName = "Full name is required";
+    if (!form.firstName) newErrors.firstName = "First name is required";
+    if (!form.surname) newErrors.surname = "Surname is required";
+
     if (!form.email || !emailRegex.test(form.email))
       newErrors.email = "Valid email is required";
     if (!form.phone || form.phone.length < 10)
@@ -49,18 +55,20 @@ export default function CardApplication() {
       !form.subCardType
     )
       newErrors.subCardType = "Please select a card option";
-    if (!form.address) newErrors.address = "Address is required";
+    
     if (!form.reason)
       newErrors.reason = "Please select a reason for your application";
     if (form.reason === "Other" && !form.otherReason) {
       newErrors.otherReason =
         "Please provide your reason for selecting 'Other'";
     }
+    if (!form.accountNumber || form.accountNumber.length < 10)
+      newErrors.accountNumber = "Valid 10-digit account number is required";
 
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -69,21 +77,27 @@ export default function CardApplication() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log("Form Submitted:", form);
+    try {
+      await axios.post("http://localhost:5050/api/apply-card", form);
       setIsSubmitting(false);
       setSuccess(true);
       setForm({
-        fullName: "",
+        firstName: "",
+        middleName: "",
+        surname: "",
         email: "",
         phone: "",
         cardType: "",
         subCardType: "",
-        address: "",
         reason: "",
         otherReason: "",
+        accountNumber: "",
       });
-    }, 2000);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setIsSubmitting(false);
+      setServerError("Failed to submit. Please try again later.");
+    }
   };
 
   const debitOptions = [
@@ -102,14 +116,20 @@ export default function CardApplication() {
         Apply for a Smart Card
       </h1>
       <p className="text-center text-sm text-red-600 mb-8">
-        ⚠️ Please ensure your account is funded. A charge of ₦1,250 (or its
+        Please ensure your account is funded. A charge of ₦1,250 (or its
         equivalent) will be deducted as the card application fee.
       </p>
 
       {success && (
         <div className="transition-opacity duration-1000 opacity-100 bg-green-50 text-green-700 border border-green-200 p-4 rounded-xl mb-8 text-center">
-          ✅ Your application was submitted! We’ll contact you via email within
+          Your application was submitted! We’ll contact you via email within
           24–48 hours.
+        </div>
+      )}
+
+      {serverError && (
+        <div className="bg-red-50 text-red-700 border border-red-200 p-4 rounded-xl mb-8 text-center">
+          {serverError}
         </div>
       )}
 
@@ -118,15 +138,54 @@ export default function CardApplication() {
         className="space-y-6 bg-white shadow-xl rounded-xl p-8"
       >
         <div>
-          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <label className="block text-sm font-medium mb-1">
+            Account Number
+          </label>
           <input
-            name="fullName"
-            value={form.fullName}
+            name="accountNumber"
+            type="text"
+            value={form.accountNumber}
             onChange={handleChange}
             className="w-full border p-3 rounded-md focus:ring-2 focus:ring-[#051d40]"
           />
-          {errors.fullName && (
-            <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+          {errors.accountNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.accountNumber}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">First Name</label>
+          <input
+            name="firstName"
+            value={form.firstName}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-md focus:ring-2 focus:ring-[#051d40]"
+          />
+          {errors.firstName && (
+            <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Middle Name</label>
+          <input
+            name="middleName"
+            value={form.middleName}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-md focus:ring-2 focus:ring-[#051d40]"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Surname</label>
+          <input
+            name="surname"
+            value={form.surname}
+            onChange={handleChange}
+            className="w-full border p-3 rounded-md focus:ring-2 focus:ring-[#051d40]"
+          />
+          {errors.surname && (
+            <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
           )}
         </div>
 
@@ -243,19 +302,6 @@ export default function CardApplication() {
           </div>
         )}
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Address</label>
-          <textarea
-            name="address"
-            value={form.address}
-            onChange={handleChange}
-            className="w-full border p-3 rounded-md focus:ring-2 focus:ring-[#051d40]"
-            rows={3}
-          />
-          {errors.address && (
-            <p className="text-red-500 text-sm mt-1">{errors.address}</p>
-          )}
-        </div>
 
         <button
           type="submit"

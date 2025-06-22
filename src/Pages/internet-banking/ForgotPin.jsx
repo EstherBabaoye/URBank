@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function ForgotPin() {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function ForgotPin() {
 
   const navigate = useNavigate();
   const [showError, setShowError] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const securityQuestions = [
     "What is your mother's maiden name?",
@@ -24,7 +26,7 @@ export default function ForgotPin() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const { accountNumber, email, securityQuestion, securityAnswer } = form;
 
     if (!accountNumber || !email || !securityQuestion || !securityAnswer) {
@@ -32,9 +34,25 @@ export default function ForgotPin() {
       return;
     }
 
-    // Logic to verify details would go here
+    try {
+      const res = await axios.post("http://localhost:5050/api/forgot-pin", {
+        account_number: accountNumber,
+        email,
+        security_question: securityQuestion,
+        security_answer: securityAnswer,
+      });
 
-    navigate("/internet-banking/reset-pin");
+      if (res.data?.status === "success") {
+        navigate("/internet-banking/reset-pin");
+      } else {
+        setApiError(res.data?.message || "Unexpected error occurred.");
+      }
+    } catch (error) {
+      setApiError(
+        error.response?.data?.message ||
+          "Verification failed. Please try again."
+      );
+    }
   };
 
   return (
@@ -93,11 +111,13 @@ export default function ForgotPin() {
         </button>
       </div>
 
-      {/* ❌ Error Modal */}
+      {/* ❌ Empty Fields Modal */}
       {showError && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">
-            <h2 className="text-lg font-bold text-red-600 mb-2">Incomplete or Invalid Fields</h2>
+            <h2 className="text-lg font-bold text-red-600 mb-2">
+              Incomplete or Invalid Fields
+            </h2>
             <p className="text-gray-700 text-sm mb-4">
               Please complete all fields with valid entries.
             </p>
@@ -111,6 +131,21 @@ export default function ForgotPin() {
         </div>
       )}
 
+      {/* ❌ API Error Modal */}
+      {apiError && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">
+            <h2 className="text-lg font-bold text-red-600 mb-2">Error</h2>
+            <p className="text-gray-700 text-sm mb-4">{apiError}</p>
+            <button
+              onClick={() => setApiError("")}
+              className="bg-yellow-400 text-[#051d40] px-4 py-2 rounded font-semibold hover:bg-yellow-300"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

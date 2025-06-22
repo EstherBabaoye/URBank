@@ -6,9 +6,18 @@ export default function Register() {
     document.title = "Internet Banking Registration | URBank";
   }, []);
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("verified") === "true") {
+      alert(" Email verified! You can now log in.");
+    }
+  }, []);
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    accountName: "",
+    firstName: "",
+    middleName: "",
+    surname: "",
     accountNumber: "",
     bvn: "",
     atmFirst4: "",
@@ -34,7 +43,14 @@ export default function Register() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const numericFields = ["accountNumber", "bvn", "atmFirst4", "atmLast6", "atmPin", "loginPin"];
+    const numericFields = [
+      "accountNumber",
+      "bvn",
+      "atmFirst4",
+      "atmLast6",
+      "atmPin",
+      "loginPin",
+    ];
     const sanitizedValue = numericFields.includes(name)
       ? value.replace(/\D/g, "")
       : value;
@@ -44,10 +60,13 @@ export default function Register() {
       [name]: sanitizedValue,
     }));
   };
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const {
-      accountName,
+      firstName,
+      middleName,
+      surname,
       accountNumber,
       bvn,
       atmFirst4,
@@ -62,7 +81,9 @@ export default function Register() {
     } = form;
 
     if (
-      !accountName ||
+      !firstName ||
+      middleName ||
+      surname ||
       accountNumber.length !== 10 ||
       bvn.length !== 11 ||
       atmFirst4.length !== 4 ||
@@ -78,10 +99,43 @@ export default function Register() {
       setShowError(true);
       return;
     }
+    setLoading(true);
+    try {
+      const payload = {
+        first_name: form.firstName,
+        middle_name: form.middleName,
+        sur_name: form.surname,
+        account_number: form.accountNumber,
+        bvn: form.bvn,
+        atm_first4: form.atmFirst4,
+        atm_last6: form.atmLast6,
+        atm_pin: form.atmPin,
+        email: form.email,
+        login_pin: form.loginPin,
+        sec_question1: form.secQuestion1,
+        sec_answer1: form.secAnswer1,
+        sec_question2: form.secQuestion2,
+        sec_answer2: form.secAnswer2,
+      };
 
-    // ✅ Submit successful
-    console.log("Registered:", form);
-    navigate("/services/internet-banking");
+      const path = require("path");
+
+      const res = await axios.post(
+        "http://localhost:5050/internetbanking/register",
+        payload
+      );
+
+      console.log("✅ Registration Success:", res.data);
+      navigate("/services/internet-banking");
+    } catch (err) {
+      console.error(
+        "❌ Registration Error:",
+        err.response?.data || err.message
+      );
+      alert("Registration failed. Please check your details and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -93,14 +147,30 @@ export default function Register() {
 
         {/* INPUT FIELDS */}
         {[
-          { name: "accountName", label: "Account Name" },
-          { name: "accountNumber", label: "Account Number (10 digits)", max: 10 },
+          { name: "firstName", label: "First Name" },
+          { name: "middleName", label: "Middle Name" },
+          { name: "surname", label: "Surname" },
+          {
+            name: "accountNumber",
+            label: "Account Number (10 digits)",
+            max: 10,
+          },
           { name: "bvn", label: "BVN (11 digits)", max: 11 },
           { name: "atmFirst4", label: "First 4 digits of ATM Card", max: 4 },
           { name: "atmLast6", label: "Last 6 digits of ATM Card", max: 6 },
-          { name: "atmPin", label: "ATM PIN (4 digits)", max: 4, type: "password" },
+          {
+            name: "atmPin",
+            label: "ATM PIN (4 digits)",
+            max: 4,
+            type: "password",
+          },
           { name: "email", label: "Email Address" },
-          { name: "loginPin", label: "Create Login mPIN (6 digits)", max: 6, type: "password" },
+          {
+            name: "loginPin",
+            label: "Create Login mPIN (6 digits)",
+            max: 6,
+            type: "password",
+          },
         ].map(({ name, label, max, type }, idx) => (
           <div key={idx} className="mb-4">
             <label className="block text-sm mb-1">{label}</label>
@@ -117,7 +187,9 @@ export default function Register() {
 
         {/* SECURITY QUESTION 1 */}
         <div className="mb-4">
-          <label className="block text-sm mb-1">Select Security Question 1</label>
+          <label className="block text-sm mb-1">
+            Select Security Question 1
+          </label>
           <select
             name="secQuestion1"
             value={form.secQuestion1}
@@ -133,7 +205,9 @@ export default function Register() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm mb-1">Answer to Security Question 1</label>
+          <label className="block text-sm mb-1">
+            Answer to Security Question 1
+          </label>
           <input
             type="text"
             name="secAnswer1"
@@ -145,7 +219,9 @@ export default function Register() {
 
         {/* SECURITY QUESTION 2 */}
         <div className="mb-4">
-          <label className="block text-sm mb-1">Select Security Question 2</label>
+          <label className="block text-sm mb-1">
+            Select Security Question 2
+          </label>
           <select
             name="secQuestion2"
             value={form.secQuestion2}
@@ -161,7 +237,9 @@ export default function Register() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm mb-1">Answer to Security Question 2</label>
+          <label className="block text-sm mb-1">
+            Answer to Security Question 2
+          </label>
           <input
             type="text"
             name="secAnswer2"
@@ -173,9 +251,12 @@ export default function Register() {
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-yellow-400 text-[#051d40] font-semibold py-2 rounded hover:bg-yellow-300 transition"
+          disabled={loading}
+          className={`w-full bg-yellow-400 text-[#051d40] font-semibold py-2 rounded transition ${
+            loading ? "opacity-50 cursor-not-allowed" : "hover:bg-yellow-300"
+          }`}
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <button
@@ -190,7 +271,9 @@ export default function Register() {
       {showError && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">
-            <h2 className="text-lg font-bold text-red-600 mb-2">Incomplete or Invalid Fields</h2>
+            <h2 className="text-lg font-bold text-red-600 mb-2">
+              Incomplete or Invalid Fields
+            </h2>
             <p className="text-gray-700 text-sm mb-4">
               Please complete all fields with valid entries.
             </p>
