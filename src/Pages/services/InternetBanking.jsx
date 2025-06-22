@@ -55,21 +55,34 @@ export default function InternetBanking() {
       return;
     }
 
+    console.log("Sending login PIN:", login_pin, login_pin.length);
+
     try {
       const res = await axios.post(
         "http://localhost:5050/internetbanking/login",
         { email, login_pin },
-        { withCredentials: true } // ✅ Add this if using sessions
+        { withCredentials: true }
       );
 
       if (res.status === 200) {
+        // ✅ Store user name and account number for dashboard
+        localStorage.setItem(
+          "urbank_user",
+          JSON.stringify({
+            fullName: res.data.fullName,
+            accountNumber: res.data.accountNumber,
+            email: res.data.email,
+            token: res.data.token, // save token here
+          })
+        );
+
         setIsAuthenticated(true);
         navigate("/dashboard");
       }
     } catch (err) {
       const message = err.response?.data?.message || "Login failed.";
       setShowErrorModal(message);
-      setShowResend(message === "Email not verified."); // 👈 only show button if email not verified
+      setShowResend(message === "Email not verified.");
     }
   };
 
@@ -160,7 +173,9 @@ export default function InternetBanking() {
 
         <div
           className="flex justify-center gap-2 mb-4"
-          onClick={() => document.querySelector("input[name='login_pin']").focus()}
+          onClick={() =>
+            document.querySelector("input[name='login_pin']").focus()
+          }
         >
           {[...Array(6)].map((_, i) => (
             <div

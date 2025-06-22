@@ -18,31 +18,61 @@ import {
 } from "react-icons/fa";
 import { useAuth } from "../Components/AuthContext";
 import SideNavbar from "../Components/SideNavbar";
+import axios from "axios";
 
 export default function WelcomeDashboard() {
   const [showBalance, setShowBalance] = useState(false);
   const [lastLogin, setLastLogin] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [userData, setUserData] = useState({});
   const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const getGreeting = () => {
-  const hour = new Date().getHours();
-  if (hour >= 0 && hour < 12) return "Good Morning";
-  if (hour >= 12 && hour < 16) return "Good Afternoon";
-  if (hour >= 16 && hour < 19) return "Good Evening";
-  return "Good Night";
-};
-
+    const hour = new Date().getHours();
+    if (hour >= 0 && hour < 12) return "Good Morning";
+    if (hour >= 12 && hour < 16) return "Good Afternoon";
+    if (hour >= 16 && hour < 19) return "Good Evening";
+    return "Good Night";
+  };
 
   const logout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("urbank_user");
     navigate("/services/internet-banking");
   };
 
   useEffect(() => {
-    document.title = "Dashboard | URBank";
+    const savedUser = JSON.parse(localStorage.getItem("urbank_user"));
+    if (!savedUser || !savedUser.token) {
+      logout();
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/internetbanking/profile/${savedUser.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${savedUser.token}`,
+            },
+          }
+        );
+        setUserData({
+          ...savedUser, // fullName, accountNumber, email, token
+          ...response.data, // accountName, bvn, nin, address, phone
+        });
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+        alert("Session expired or unauthorized. Please log in again.");
+        logout();
+      }
+    };
+
+    fetchProfile();
+
     const now = new Date();
     const formatted =
       now.toLocaleDateString("en-GB") +
@@ -50,6 +80,15 @@ export default function WelcomeDashboard() {
       now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
     setLastLogin(formatted);
   }, []);
+
+  const features = [
+    { label: "Transfer", icon: <FaExchangeAlt />, path: "/transfer" },
+    { label: "Pay Bills", icon: <FaMoneyBill />, path: "/bills" },
+    { label: "Buy Airtime/Data", icon: <FaPhoneAlt />, alert: true },
+    { label: "QR Payment", icon: <FaQrcode />, alert: true },
+    { label: "Loans", icon: <FaLandmark />, alert: true },
+    { label: "Virtual Cards", icon: <FaCreditCard />, alert: true },
+  ];
 
   return (
     <div className="flex min-h-screen">
@@ -75,7 +114,6 @@ export default function WelcomeDashboard() {
 
         {/* Page Body */}
         <section className="bg-slate-100 flex-1 pb-0">
-          {/* Header */}
           <div className="bg-[#72cded] text-[#051d40] px-4 py-6 relative">
             <div className="absolute right-4 top-4">
               <FaBell className="text-[#051d40] text-xl" />
@@ -84,12 +122,10 @@ export default function WelcomeDashboard() {
             <div className="mt-4 flex justify-between items-center">
               <div>
                 <p className="text-sm">
-                  {getGreeting()}, <strong>Olabimpe Babaoye</strong>
+                  {getGreeting()},{" "}
+                  <strong>{userData?.accountName || userData?.fullName || "User"}</strong>
                 </p>
-
-                <p className="text-xs text-[#051d40]/70">
-                  Last Login {lastLogin}
-                </p>
+                <p className="text-xs text-[#051d40]/70">Last Login {lastLogin}</p>
               </div>
               <Link
                 to="/transaction-history"
@@ -102,7 +138,11 @@ export default function WelcomeDashboard() {
             <div className="bg-white/20 rounded-md mt-4 px-4 py-3 flex justify-between items-center">
               <div>
                 <p className="text-xs text-[#051d40]/70">
-                  ACCOUNT # 3120 7208 69
+                  ACCOUNT #{" "}
+                  {(userData?.accountNumber || "0000000000").replace(
+                    /(\d{4})(?=\d)/g,
+                    "$1 "
+                  )}
                 </p>
                 <p className="text-lg font-bold mt-1">
                   ₦ {showBalance ? "0.00" : "*****"}
@@ -121,52 +161,33 @@ export default function WelcomeDashboard() {
             </div>
           </div>
 
-          {/* Feature Actions */}
           <div className="grid pb-48 grid-cols-3 gap-4 px-6 py-6 bg-white shadow-sm rounded-b-lg -mt-4 z-10 relative">
-            {[
-              [
-                {
-                  label: "Transfer",
-                  icon: <FaExchangeAlt />,
-                  path: "/transfer",
-                },
-                { label: "Pay Bills", icon: <FaMoneyBill />, path: "/bills" },
-                {
-                  label: "Buy Airtime/ Data",
-                  icon: <FaPhoneAlt />,
-                  alert: true,
-                },
-                { label: "QR Payment", icon: <FaQrcode />, alert: true },
-                { label: "Loans", icon: <FaLandmark />, alert: true },
-                { label: "Virtual Cards", icon: <FaCreditCard />, alert: true },
-              ],
-            ].map(({ label, icon, path, alert }, idx) => {
+            {features.map((feature, idx) => {
               const commonClasses =
                 "flex flex-col items-center text-[#051d40] hover:text-[#fbbf24] transition-colors";
-
-              return alert ? (
+              return feature.alert ? (
                 <button
                   key={idx}
                   onClick={() => setShowComingSoon(true)}
                   className={commonClasses}
                 >
                   <div className="bg-yellow-100 text-yellow-500 p-3 rounded-full text-xl">
-                    {icon}
+                    {feature.icon}
                   </div>
-                  <p className="text-xs mt-2 text-center">{label}</p>
+                  <p className="text-xs mt-2 text-center">{feature.label}</p>
                 </button>
               ) : (
-                <Link to={path} key={idx} className={commonClasses}>
+                <Link to={feature.path} key={idx} className={commonClasses}>
                   <div className="bg-yellow-100 text-yellow-500 p-3 rounded-full text-xl">
-                    {icon}
+                    {feature.icon}
                   </div>
-                  <p className="text-xs mt-2 text-center">{label}</p>
+                  <p className="text-xs mt-2 text-center">{feature.label}</p>
                 </Link>
               );
             })}
           </div>
 
-          {/* Bottom Nav */}
+          {/* Bottom Navigation */}
           <nav className="w-full bg-white border-t border-gray-300 flex justify-around py-2 shadow-md fixed bottom-0 md:static md:border-none md:shadow-none">
             <Link
               to="/dashboard"
@@ -205,7 +226,7 @@ export default function WelcomeDashboard() {
             </Link>
           </nav>
 
-          {/* Modal */}
+          {/* Modal for Coming Soon */}
           {showComingSoon && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white rounded-lg p-6 w-80 text-center shadow-lg">
