@@ -27,33 +27,36 @@ export default function ForgotPin() {
   };
 
   const handleContinue = async () => {
-    const { accountNumber, email, securityQuestion, securityAnswer } = form;
+  const { accountNumber, email, securityQuestion, securityAnswer } = form;
 
-    if (!accountNumber || !email || !securityQuestion || !securityAnswer) {
-      setShowError(true);
-      return;
-    }
+  if (!accountNumber || !email || !securityQuestion || !securityAnswer) {
+    setShowError(true);
+    return;
+  }
 
-    try {
-      const res = await axios.post("http://localhost:5050/api/forgot-pin", {
-        account_number: accountNumber,
-        email,
-        security_question: securityQuestion,
-        security_answer: securityAnswer,
-      });
-
-      if (res.data?.status === "success") {
-        navigate("/internet-banking/reset-pin");
-      } else {
-        setApiError(res.data?.message || "Unexpected error occurred.");
-      }
-    } catch (error) {
-      setApiError(
-        error.response?.data?.message ||
-          "Verification failed. Please try again."
-      );
-    }
+  const payload = {
+    account_number: accountNumber,
+    email,
+    sec_question: securityQuestion,
+    sec_answer: securityAnswer,
   };
+
+  try {
+    const res = await axios.post("http://localhost:5050/forgot-pin", payload);
+
+    if (res.status === 200) {
+      alert(" Reset email sent! Check your inbox.");
+      navigate("/services/internet-banking");
+    }
+  } catch (err) {
+    console.error("Forgot PIN error:", err.response?.data || err.message);
+    setApiError(
+      err.response?.data?.message || " Something went wrong. Please try again."
+    );
+  }
+};
+
+
 
   return (
     <section className="min-h-screen mt-16 pt-24 px-6 pb-32 bg-[#f9fafb]">
@@ -111,7 +114,7 @@ export default function ForgotPin() {
         </button>
       </div>
 
-      {/* ❌ Empty Fields Modal */}
+     
       {showError && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">
@@ -131,7 +134,7 @@ export default function ForgotPin() {
         </div>
       )}
 
-      {/* ❌ API Error Modal */}
+     
       {apiError && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-md shadow-lg p-6 w-80 text-center">

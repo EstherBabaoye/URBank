@@ -17,7 +17,7 @@ import axios from "axios";
 
 export default function InternetBanking() {
   const [email, setEmail] = useState("");
-  const [mpin, setMpin] = useState("");
+  const [login_pin, setlogin_pin] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(null);
   const [showResend, setShowResend] = useState(false); // add this
 
@@ -31,13 +31,13 @@ export default function InternetBanking() {
     };
     window.addEventListener("keydown", handleEnterKey);
     return () => window.removeEventListener("keydown", handleEnterKey);
-  }, [mpin]);
+  }, [login_pin]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "mpin") {
+    if (name === "login_pin") {
       const sanitized = value.replace(/\D/g, "").slice(0, 6);
-      setMpin(sanitized);
+      setlogin_pin(sanitized);
     } else if (name === "email") {
       setEmail(value);
     }
@@ -50,7 +50,7 @@ export default function InternetBanking() {
       return;
     }
 
-    if (mpin.length !== 6) {
+    if (login_pin.length !== 6) {
       setShowErrorModal("Please enter your complete 6-digit PIN.");
       return;
     }
@@ -58,7 +58,7 @@ export default function InternetBanking() {
     try {
       const res = await axios.post(
         "http://localhost:5050/internetbanking/login",
-        { email, mpin },
+        { email, login_pin },
         { withCredentials: true } // ✅ Add this if using sessions
       );
 
@@ -151,27 +151,27 @@ export default function InternetBanking() {
           type="password"
           inputMode="numeric"
           maxLength="6"
-          value={mpin}
+          value={login_pin}
           onChange={handleInputChange}
-          name="mpin"
+          name="login_pin"
           autoFocus
           className="w-0 h-0 opacity-0 absolute"
         />
 
         <div
           className="flex justify-center gap-2 mb-4"
-          onClick={() => document.querySelector("input[name='mpin']").focus()}
+          onClick={() => document.querySelector("input[name='login_pin']").focus()}
         >
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
               className={`w-8 h-10 border-b-2 text-white text-center text-xl font-bold ${
-                mpin[i] ? "border-white" : "border-gray-500"
+                login_pin[i] ? "border-white" : "border-gray-500"
               }`}
             >
-              {mpin[i]
+              {login_pin[i]
                 ? "•"
-                : i === mpin.length && (
+                : i === login_pin.length && (
                     <span className="animate-pulse opacity-50">|</span>
                   )}
             </div>

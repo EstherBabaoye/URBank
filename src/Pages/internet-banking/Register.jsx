@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export default function Register() {
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function Register() {
     bvn: "",
     atmFirst4: "",
     atmLast6: "",
-    atmPin: "",
+    pin: "",
     email: "",
     loginPin: "",
     secQuestion1: "",
@@ -48,7 +50,7 @@ export default function Register() {
       "bvn",
       "atmFirst4",
       "atmLast6",
-      "atmPin",
+      "pin",
       "loginPin",
     ];
     const sanitizedValue = numericFields.includes(name)
@@ -71,7 +73,7 @@ export default function Register() {
       bvn,
       atmFirst4,
       atmLast6,
-      atmPin,
+      pin,
       email,
       loginPin,
       secQuestion1,
@@ -82,13 +84,13 @@ export default function Register() {
 
     if (
       !firstName ||
-      middleName ||
-      surname ||
+      !middleName || // <-- add ! here
+      !surname || // <-- add ! here
       accountNumber.length !== 10 ||
       bvn.length !== 11 ||
       atmFirst4.length !== 4 ||
       atmLast6.length !== 6 ||
-      atmPin.length !== 4 ||
+      pin.length !== 4 ||
       !email ||
       loginPin.length !== 6 ||
       !secQuestion1 ||
@@ -97,6 +99,7 @@ export default function Register() {
       !secAnswer2
     ) {
       setShowError(true);
+
       return;
     }
     setLoading(true);
@@ -104,21 +107,21 @@ export default function Register() {
       const payload = {
         first_name: form.firstName,
         middle_name: form.middleName,
-        sur_name: form.surname,
+        surname: form.surname,
         account_number: form.accountNumber,
         bvn: form.bvn,
         atm_first4: form.atmFirst4,
         atm_last6: form.atmLast6,
-        atm_pin: form.atmPin,
+        pin: form.pin.toString(),
         email: form.email,
-        login_pin: form.loginPin,
+        login_pin: form.loginPin.toString(),
         sec_question1: form.secQuestion1,
         sec_answer1: form.secAnswer1,
         sec_question2: form.secQuestion2,
         sec_answer2: form.secAnswer2,
       };
 
-      const path = require("path");
+    
 
       const res = await axios.post(
         "http://localhost:5050/internetbanking/register",
@@ -159,7 +162,7 @@ export default function Register() {
           { name: "atmFirst4", label: "First 4 digits of ATM Card", max: 4 },
           { name: "atmLast6", label: "Last 6 digits of ATM Card", max: 6 },
           {
-            name: "atmPin",
+            name: "pin",
             label: "ATM PIN (4 digits)",
             max: 4,
             type: "password",

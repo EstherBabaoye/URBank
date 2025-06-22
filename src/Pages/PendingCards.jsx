@@ -26,7 +26,7 @@ export default function PendingCards() {
     setLoadingIds((prev) => [...prev, id]);
     try {
       const res = await axios.post(
-        `http://localhost:5050/admin/cards/${id}/${action}`,
+        `http://localhost:5050/api/admin/cards/${id}/${action}`,
         {},
         { withCredentials: true }
       );
