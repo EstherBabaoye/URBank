@@ -43,7 +43,7 @@ export default function ForgotPin() {
   };
 
   try {
-    const res = await axios.post("http://localhost:5050/forgot-pin", payload);
+    const res = await axios.post("http://urbank-backend.test/forgot-pin", payload);
 
     if (res.status === 200) {
       alert(" Reset email sent! Check your inbox.");

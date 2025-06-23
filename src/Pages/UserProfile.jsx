@@ -14,7 +14,7 @@ export default function UserProfile() {
     if (!user?.email || !token) return;
 
     axios
-      .get(`http://localhost:5050/internetbanking/profile/${user.email}`, {
+      .get(`http://urbank-backend.test/internetbanking/profile/${user.email}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -23,7 +23,7 @@ export default function UserProfile() {
         setProfile(res.data);
 
         if (res.data.passportPhoto) {
-          setPhoto(`http://localhost:5050/uploads/${res.data.passportPhoto}`);
+          setPhoto(`http://urbank-backend.test/uploads/${res.data.passportPhoto}`);
         } else {
           setPhoto("/default-avatar.jpg");
         }

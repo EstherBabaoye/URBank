@@ -164,7 +164,7 @@ export default function AccountOpeningForm() {
       }
 
       try {
-        const res = await axios.post("http://localhost:5050/account/open", data, {
+        const res = await axios.post("http://urbank-backend.test/account/open", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

@@ -23,7 +23,7 @@ export default function AdminApproval() {
 
   const fetchAccounts = async () => {
     try {
-      const res = await axios.get("http://localhost:5050/admin/accounts");
+      const res = await axios.get("http://urbank-backend.test");
       setAccounts(res.data);
     } catch (err) {
       toast.error("Failed to fetch pending accounts");
@@ -48,11 +48,11 @@ export default function AdminApproval() {
 
     try {
       if (type === "approve") {
-        await axios.post(`http://localhost:5050/account/approve/${id}`);
+        await axios.post(`http://urbank-backend.test/account/approve/${id}`);
         toast.success("Account approved successfully!");
       } else {
         const reason = reasons[id] || "No reason provided";
-        await axios.post(`http://localhost:5050/account/reject/${id}`, { reason });
+        await axios.post(`http://urbank-backend.test/account/reject/${id}`, { reason });
         toast.success("Account approval rejected!");
       }
 

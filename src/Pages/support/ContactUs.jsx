@@ -40,7 +40,7 @@ export default function ContactUs() {
   };
 
   const handleSubmit = (e) => {
-    fetch("http://localhost:5050/api/contact", {
+    fetch("http://urbank-backend.test/api/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -14,7 +14,7 @@ export default function PendingCards() {
 
   const fetchPendingCards = () => {
     axios
-      .get("http://localhost:5050/api/admin/cards/pending", {
+      .get("http://urbank-backend.test/api/admin/cards/pending", {
         withCredentials: true,
       })
       .then((res) => setCards(res.data))
@@ -26,7 +26,7 @@ export default function PendingCards() {
     setLoadingIds((prev) => [...prev, id]);
     try {
       const res = await axios.post(
-        `http://localhost:5050/api/admin/cards/${id}/${action}`,
+        `http://urbank-backend.test/api/admin/cards/${id}/${action}`,
         {},
         { withCredentials: true }
       );

@@ -124,7 +124,7 @@ export default function Register() {
     
 
       const res = await axios.post(
-        "http://localhost:5050/internetbanking/register",
+        "http://urbank-backend.test/internetbanking/register",
         payload
       );
 

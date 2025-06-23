@@ -26,7 +26,7 @@ export default function ResetPin() {
   }
 
   try {
-    await axios.post("http://localhost:5050/reset-pin", {
+    await axios.post("http://urbank-backend.test/reset-pin", {
       new_pin: newPin,
       token, // ✅ Include token from URL in request
     });
