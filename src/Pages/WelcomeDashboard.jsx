@@ -53,7 +53,7 @@ export default function WelcomeDashboard() {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `http://urbank-backend.test/internetbanking/profile/${savedUser.email}`,
+          `https://urbankbe.nhsurulere.site/internetbanking/profile/${savedUser.email}`,
           {
             headers: {
               Authorization: `Bearer ${savedUser.token}`,

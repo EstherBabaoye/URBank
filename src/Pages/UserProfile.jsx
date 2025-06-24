@@ -23,7 +23,7 @@ export default function UserProfile() {
         setProfile(res.data);
 
         if (res.data.passportPhoto) {
-          setPhoto(`http://urbank-backend.test/uploads/${res.data.passportPhoto}`);
+          setPhoto(`https://urbankbe.nhsurulere.site/uploads/${res.data.passportPhoto}`);
         } else {
           setPhoto("/default-avatar.jpg");
         }

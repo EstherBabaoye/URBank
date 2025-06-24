@@ -48,11 +48,11 @@ export default function AdminApproval() {
 
     try {
       if (type === "approve") {
-        await axios.post(`http://urbank-backend.test/account/approve/${id}`);
+        await axios.post(`https://urbankbe.nhsurulere.site/account/approve/${id}`);
         toast.success("Account approved successfully!");
       } else {
         const reason = reasons[id] || "No reason provided";
-        await axios.post(`http://urbank-backend.test/account/reject/${id}`, { reason });
+        await axios.post(`https://urbankbe.nhsurulere.site/account/reject/${id}`, { reason });
         toast.success("Account approval rejected!");
       }
 

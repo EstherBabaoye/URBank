@@ -78,7 +78,7 @@ export default function CardApplication() {
 
     setIsSubmitting(true);
     try {
-      await axios.post("http://urbank-backend.test/api/apply-card", form);
+      await axios.post("https://urbankbe.nhsurulere.site/api/apply-card", form);
       setIsSubmitting(false);
       setSuccess(true);
       setForm({

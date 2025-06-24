@@ -59,7 +59,7 @@ export default function InternetBanking() {
 
     try {
       const res = await axios.post(
-        "http://urbank-backend.test/internetbanking/login",
+        "https://urbankbe.nhsurulere.site/internetbanking/login",
         { email, login_pin },
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ export default function InternetBanking() {
   const handleResendEmail = async () => {
     try {
       await axios.post(
-        "http://urbank-backend.test/internetbanking/resend-verification", // ✅ Correct
+        "https://urbankbe.nhsurulere.site/internetbanking/resend-verification", // ✅ Correct
         { email },
         { withCredentials: true } // Optional if using cookies/session
       );

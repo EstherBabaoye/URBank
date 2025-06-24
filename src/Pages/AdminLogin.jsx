@@ -12,7 +12,7 @@ export default function AdminLogin() {
     e.preventDefault(); // 🔒 Prevent default form submission
 
     try {
-      const res = await axios.post("http://urbank-backend.test/admin/login", {
+      const res = await axios.post("https://urbankbe.nhsurulere.site/admin/login", {
         email,
         password,
       });
